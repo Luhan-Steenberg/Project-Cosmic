@@ -1,0 +1,22 @@
+import sys
+import math
+import stddraw
+import stdio
+import coordinate 
+import playertype
+
+def CreatePlayer(Coord : Coordinat, angle : float) -> None:
+
+
+    stddraw.clear
+    stddraw.filledCircle(Coordinate.x, Coordinate.y, 5)
+
+
+def PlayerMovement(p : player ) -> None:
+
+
+
+
+
+
+
