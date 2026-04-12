@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/home/luhan/Documents/University/Computer Science E214/Practicals/3.12.3/bin/python3" "$0" "$@"
+'''exec' "/home/luhan/Documents/University/Computer Science E214/Project Cosmic/3.12.3/bin/python3.12" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re
