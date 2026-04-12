@@ -1,7 +1,8 @@
+# Luhan | A data structure primarily meant to implement two-parameter coordinates
+@datatype
 class Coordinate:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    x: float
+    y: float
 
     def __str__(self):
         return f"({x} , {y})"
