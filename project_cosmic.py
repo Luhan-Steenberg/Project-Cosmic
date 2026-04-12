@@ -4,7 +4,7 @@ def main() -> None:
     stdio.writeln("Initialising Project Cosmic")
 
     # Luhan Steenberg | Canvas Setup
-    stddraw.setCanvasSize(w=512, h=512)
+    stddraw.setCanvasSize(w=812, h=812)
 
 
 
