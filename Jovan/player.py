@@ -2,85 +2,39 @@ import sys
 import math
 import stddraw
 import stdio
-import playertype
+from playertype import Player
 
-def PlayerDisplay(p : Player) -> None: # displays the actual palyer depending on where he is 
-
-
-
-    stddraw.clear
-
-    # Both functions will look at the inputs by the player to determine where the player is and how it is rotated
-
-    PlayerMovement(p)
-    PlayerRotate(p)     
-
-    stddraw.filledCircle(p.x, p.y, 5)
-
-
-def PlayerMovement(p : Player) -> None: # Determines if and where player moves horizontoly 
-    if PlayerRight :
-        p.x += 1
-    elif PlayerLeft :
-        p.x -= 1
-    elif PlayerStop :  
-        return
-
-
-def PlayerRotate(p : Player) -> None:  # Determines if and where player rotates towards
-    if PlayerRotateRight :
-        p.angle += 1 
-    elif PlayerRotateLeft : 
-        p.angle -= 1
-    elif PlayerRotateStop :
-        return
-
-
-       
-          
-        
-
-
-
-def PlayerRight() -> bool:      # player goes right if d is pressed 
+def PlayerUpdate(p: Player) -> None:
     if stddraw.hasNextKeyTyped():
         key = stddraw.nextKeyTyped()
+
+        # Movement
         if key == 'd':
-            return True
+            p.vx = 0.05
+        elif key == 'a':
+            p.vx = -0.05
+        elif key == 's':
+            p.vx = 0.0
 
-def PlayerLeft() -> bool:       # player goes left if a is pressed 
-    if stddraw.hasNextKeyTyped():
-        key = stddraw.nextKeyTyped()
-        if key == 'a':
-            return True
+        # Rotation
+        elif key == 'q':
+            p.vangle = 0.05
+        elif key == 'e':
+            p.vangle = -0.05
+        elif key == 'w':
+            p.vangle = 0.0
 
-def PlayerStop() -> bool:       # player stops moving if s is pressed 
-    if stddraw.hasNextKeyTyped():
-        key == stddraw.nextKeyTyped()
-        if key == 's':
-            return True
+    # Update every frame
+    p.x += p.vx
+    p.angle += p.vangle
 
-def PlayerRotateRight() -> bool:        # player rotates right if q is pressed
-    if stddraw.hasNextKeyTyped():
-        key = stddraw.nextKeyTyped()
-        if key == 'q':
-            return True
-
-def PlayerRotateLeft() -> bool:     # player rotates left if e is pressed 
-    if stddraw.hasNextKeyTyped():
-        key = stddraw.nextKeyTyped()
-        if key == 'e':
-            return True
-
-def PlayerRotateStop() -> bool:     # player stops rotating if w is pressed 
-    if stddraw.hasNextKeyTyped():
-        key = stddraw.nextKeyTyped()
-        if key == 'w':
-            return True
+    # Boundaries
+    if p.x < 0.05:
+        p.x = 0.05
+    if p.x > 0.95:
+        p.x = 0.95
 
 
-
-
-
-
-
+def PlayerDisplay(p: Player) -> None:
+    stddraw.setPenColor(stddraw.RED)
+    stddraw.filledCircle(p.x, p.y, 0.05)
