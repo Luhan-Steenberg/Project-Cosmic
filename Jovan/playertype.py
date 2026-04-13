@@ -1,6 +1,6 @@
 class Player:
     def _init_(self, x, y, angle):
-        self.x = x 
-        self.y = y
-        self.angle = angle 
+        self.x = float(x) 
+        self.y = float(y)
+        self.angle = float(angle) 
     
