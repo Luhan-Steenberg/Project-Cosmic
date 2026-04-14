@@ -1,6 +1,6 @@
 import stddraw, stdio, sys
-from playertype import Player
-from player import PlayerDisplay, PlayerUpdate
+from Jovan.playertype import Player
+from Jovan.player import PlayerDisplay, PlayerUpdate
 
 def main() -> None: 
     stdio.writeln("Initialising Project Cosmic")
