@@ -1,7 +1,10 @@
 import stddraw, stdio, sys
+from Jovan.playertype import Player
+from Jovan.player import PlayerDisplay, PlayerUpdate
 
 def main() -> None: 
     stdio.writeln("Initialising Project Cosmic")
+    p = Player(0.5, 0.1, 0.0, 5)
 
     # Luhan Steenberg | Canvas Setup
     stddraw.setCanvasSize(w=812, h=812)
@@ -14,6 +17,10 @@ def main() -> None:
         # Function-Calling code goes here
         
         stddraw.clear(stddraw.GRAY)
+
+        PlayerUpdate(p)
+        PlayerDisplay(p)
+
         
         # Draw the next frame here
 

@@ -1,0 +1,10 @@
+class Player:
+    def __init__(self, x: float, y: float, angle: float, health: int):
+        self.x = float(x)
+        self.y = float(y)
+        self.angle = float(angle)
+        self.health = int(health)
+
+        # Movement state
+        self.vx = 0.0
+        self.vangle = 0.0
