@@ -39,6 +39,17 @@ class bullet_manager:
                 new_array.append(i)
         self.bullet_array = new_array
 
+    def check_collision(self, enemy_array):
+        for i in self.bullet_array:
+            for j in self.enemy_array:
+                distance = math.sqrt((i.x - j.x)**2 + (i.y - j.y)**2)
+                if distance <= 0.05:
+                    i.active = False
+                    j.active = False
+                    
+
+
+
 
 
         
