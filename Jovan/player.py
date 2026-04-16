@@ -3,7 +3,7 @@ import math
 import stddraw
 from picture import Picture
 import stdio
-from playertype import Player
+from Jovan.playertype import Player
 
 #Jovan Fourie 
 
@@ -64,7 +64,7 @@ def PlayerDisplay(p: Player) -> None:
 
     # Jovan Fourie | Uploads an image to show the player at said position
 
-    pic = Picture("ship_final.png")
+    pic = Picture("Jovan/ship_final.png")
 
     stddraw.picture(pic, p.x, p.y, 0.1, 0.1)
 
