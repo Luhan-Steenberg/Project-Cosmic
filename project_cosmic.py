@@ -1,6 +1,7 @@
 import stddraw, stdio, sys
 from Jovan.playertype import Player
 from Jovan.player import PlayerDisplay, PlayerUpdate
+from Luhan.aliens import Alien, generateAliens
 
 def main() -> None: 
     stdio.writeln("Initialising Project Cosmic")
@@ -8,6 +9,8 @@ def main() -> None:
 
     # Luhan Steenberg | Canvas Setup
     stddraw.setCanvasSize(w=812, h=812)
+    stddraw.setXscale(0,1)
+    stddraw.setYscale(0,1)
 
 
 
@@ -17,6 +20,14 @@ def main() -> None:
         # Function-Calling code goes here
         
         stddraw.clear(stddraw.GRAY)
+
+        aliens_array = []
+        aliens_array.append(generateAliens(5)) # generates 5 aliens in a row:w
+
+        for i, row in enumerate(aliens_array):
+            for i, aliens in enumerate(row):
+                aliens.drawAlien() # Draws all aliens in their current position
+                aliens.moveDown(0.4) # Puts their next move into the frame buffer
 
         PlayerUpdate(p)
         PlayerDisplay(p)
