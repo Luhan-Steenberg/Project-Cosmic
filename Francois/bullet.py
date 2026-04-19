@@ -1,6 +1,9 @@
-import math, stddraw
+import math
+import stddraw # type: ignore
+from typing import List
+
 # Francois Cooper
-class bullet:
+class Bullet:
     def __init__(self, x, y, angle, velocity):
         # Francois Cooper | initialises bullet position, angle and velocity
         self.active = True
@@ -13,7 +16,7 @@ class bullet:
         # Francois Cooper | bullet trajectory and draw
         self.x += self.velocity * math.cos(self.angle)
         self.y += self.velocity * math.sin(self.angle)
-        if self.x >= 1 or self.x <= 0 or self.y >= 1 or self.y <= 0:
+        if self.x >= 1 or self.x <= 0 or self.y >= 1.33 or self.y <= 0:
             self.active = False
         self.draw()
 
@@ -23,14 +26,14 @@ class bullet:
             stddraw.setPenColor(stddraw.GREEN)
             stddraw.filledCircle(self.x, self.y, 0.01)
 
-class bullet_manager:
+class Bullet_Manager:
     def __init__(self):
         # Francois Cooper | initialises bullet array
         self.bullet_array = []
 
     def shoot(self, x, y, angle, velocity): 
         # Francois Cooper | creates new bullet and appends to bullet_array
-        new_bullet = bullet(x, y, angle, velocity)
+        new_bullet = Bullet(x, y, angle, velocity)
         self.bullet_array.append(new_bullet)
 
     def update(self): 
@@ -47,17 +50,19 @@ class bullet_manager:
                 new_array.append(i)
         self.bullet_array = new_array
 
-    def check_collision(self, enemy_array, explosion_manager):
+"""
+    def check_collision(self, enemy_array: List[Alien], explosion_manager):
         # Francois Cooper | checks for collision and removes bullet and enemy from their respective lists and creates a new explosion
-        for i in self.bullet_array:
-            for j in enemy_array:
-                distance = math.sqrt((i.x - j.x)**2 + (i.y - j.y)**2)
+        for bul in self.bullet_array:
+            for enmy in enemy_array:
+                distance = math.sqrt((bul.x - enmy.x)**2 + (bul.y - enmy.y)**2)
                 if distance <= 0.05:
-                    i.active = False
-                    j.active = False
-                    explosion_manager.new_explosion(i.x, i.y)
+                    bul.active = False
+                    enmy.update_health(1)
+                    explosion_manager.new_explosion(enmy.x, enmy.y)
+"""
 
-class explosion:
+class Explosion:
     def __init__(self, x, y):
         # Francois Cooper | Initialises explosion
         self.active = True
@@ -83,14 +88,14 @@ class explosion:
         if self.frames <= 0:
             self.active = False
         
-class explosion_manager:
+class Explosion_Manager:
     def __init__(self):
         # Francois Cooper | Initialises explosion array
         self.explosion_array = []
 
     def new_explosion(self, x, y): 
         # Francois Cooper | creates new explosion and appends to explosion_array
-        new = explosion(x, y)
+        new = Explosion(x, y)
         self.explosion_array.append(new)
 
     def update(self): 

@@ -1,8 +1,6 @@
-import sys
-import math
-import stddraw
-from picture import Picture
-import stdio
+import sys, math
+import stddraw, stdio # type: ignore
+from picture import Picture # type: ignore
 from Jovan.playertype import Player
 
 #Jovan Fourie 
@@ -87,6 +85,8 @@ def PlayerShoot() -> bool:  # Jovan Fourie | Checks if the player wants to shoot
         # Jovan Fourie | if space bar is pressed then the player will shoot
         if key == ' ':
             return True
+
+    return False
 
 def PlayerHitByEnemy(p : Player, xEnemy :float, yEnemy :float, rEnemy :float) -> None:  
 
