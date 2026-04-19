@@ -33,4 +33,14 @@ def draw_coordinate_grid(max_x: float, max_y: float, step: float = 1):
             label = f"({x:g},{y:g})"
             stddraw.text(x + (step * 0.15), y + (step * 0.15), label)
 
-    stddraw.show(2000)
+    stddraw.show()
+
+def main() -> None:
+    # Luhan Steenberg | Canvas Setup
+    stddraw.setCanvasSize(w=750, h=1000)
+    stddraw.setXscale(0,1)
+    stddraw.setYscale(0,1.4)
+
+    draw_coordinate_grid(1, 1.4, 0.1)
+
+if __name__ == "__main__": main()

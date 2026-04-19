@@ -26,7 +26,7 @@ class Bullet:
             stddraw.setPenColor(stddraw.GREEN)
             stddraw.filledCircle(self.x, self.y, 0.01)
 
-class Bullet_Manager:
+class BulletManager:
     def __init__(self):
         # Francois Cooper | initialises bullet array
         self.bullet_array = []
@@ -49,18 +49,6 @@ class Bullet_Manager:
             if i.active:
                 new_array.append(i)
         self.bullet_array = new_array
-
-"""
-    def check_collision(self, enemy_array: List[Alien], explosion_manager):
-        # Francois Cooper | checks for collision and removes bullet and enemy from their respective lists and creates a new explosion
-        for bul in self.bullet_array:
-            for enmy in enemy_array:
-                distance = math.sqrt((bul.x - enmy.x)**2 + (bul.y - enmy.y)**2)
-                if distance <= 0.05:
-                    bul.active = False
-                    enmy.update_health(1)
-                    explosion_manager.new_explosion(enmy.x, enmy.y)
-"""
 
 class Explosion:
     def __init__(self, x, y):

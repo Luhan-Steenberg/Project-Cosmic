@@ -1,11 +1,15 @@
 import sys, time, math
 import stddraw, stdio # type: ignore
+
+from picture import Picture
+
 from Jovan.playertype import Player
-from Jovan.player import PlayerDisplay, PlayerUpdate
 from Luhan.aliens import Alien_Manager, Alien
-from Visuals.screens import showStart
+from Visuals.screens import show_start
 from Helpers.coordinate_visual import draw_coordinate_grid
 from Francois.bullet import Bullet, Bullet_Manager, Explosion_Manager
+
+BACKGROUND = Picture("Cosmic_background.png")
 
 def main() -> None: 
     stdio.writeln("Initialising Project Cosmic")
@@ -14,13 +18,13 @@ def main() -> None:
     # Luhan Steenberg | Canvas Setup
     stddraw.setCanvasSize(w=750, h=1000)
     stddraw.setXscale(0,1)
-    stddraw.setYscale(0,1.33)
+    stddraw.setYscale(0,1.4)
 
     # This is just a helper to get a sense of scale
-    # draw_coordinate_grid(1, 1.33, 0.1)
+    # draw_coordinate_grid(1, 1.4, 0.1)
 
     # START SCREEN IMPLEMENTATION
-    showStart()
+    show_start()
 
     # Setup Code for permanent variables
     frame_timing = 33
@@ -36,6 +40,9 @@ def main() -> None:
     bullet_manager = Bullet_Manager()
     explosion_manager = Explosion_Manager()
     last_bullet_spawn_time = time.time()
+
+    # SINGLE PLAYER SETUP
+    player = Player(0.5, 0.1, 0, 3)
 
     while True: 
         # SETUP FOR EACH LOOP
@@ -66,8 +73,8 @@ def main() -> None:
         """
 
         # FRAME UPDATES
-        PlayerUpdate(p)
-        PlayerDisplay(p)
+        stddraw.picture(BACKGROUND, 0.5, 0.7)
+        player.update()
         alien_manager.update()
         bullet_manager.update()
 
