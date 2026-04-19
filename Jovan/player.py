@@ -42,7 +42,7 @@ class Player:
         stddraw.picture(pic, self.x, self.y, 0.1, 0.1)
 
 
-    def update(self):
+    def update(self, bullet_manager: BulletManager, bullet_velocity: float):
         # Jovan Fourie | checks that the player has typed a key, and if so, stores the value of that key
 
         if stddraw.hasNextKeyTyped():
@@ -65,6 +65,10 @@ class Player:
                 self.vangle = 13
             elif key == 'w':
                 self.vangle = 0.0
+
+            if key == ' ':
+                self.shoot(bullet_manager, bullet_velocity)
+
 
         # Jovan Fourie | Updates the shooter and players position depending on the velocity
         self.x += self.vx
@@ -89,7 +93,7 @@ class Player:
     def is_dead(self) -> bool:
         return (p.health <= 0)
 
-    def shoot(self, bullet_manager: BulletManager):
+    def shoot(self, bullet_manager: BulletManager, bullet_velocity):
         angle = 0.0
         if self.angle < 0:
            angle = maths.radian(abs(self.angle) + 90)
@@ -97,8 +101,10 @@ class Player:
             angle = math.radians(90 - self.angle)
 
         bullet_manager.shoot(
-                self.x + 0.06 * math.sin(angle),
-                self.y + 0.06 * math.cos(angle)
+                self.x + 0.06 * math.cos(angle),
+                self.y + 0.06 * math.sin(angle),
+                angle,
+                bullet_velocity
                 )
 
 

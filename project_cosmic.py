@@ -39,10 +39,11 @@ def main() -> None:
     """
     bullet_manager = BulletManager()
     explosion_manager = Explosion_Manager()
-    last_bullet_spawn_time = time.time()
+    # last_bullet_spawn_time = time.time()
 
     # SINGLE PLAYER SETUP
     player = Player(0.5, 0.1, 0, 3)
+    bullet_velocity = 0.02
 
     while True: 
         # SETUP FOR EACH LOOP
@@ -58,12 +59,12 @@ def main() -> None:
 
         alien_manager.move_down(0.001)
 
+        """
         # Luhan | BULLET & COLLISION TESTING
         if current_time - last_bullet_spawn_time >= 1: # spawns every 1 seconds
             bullet_manager.shoot(0.5, 0.5, math.radians(100), 0.02)
             last_bullet_spawn_time = current_time
-
-        alien_manager.check_collision(bullet_manager, 0.05)
+        """
 
         """
         Luhan | This is a bit of code I used for a "animation test"
@@ -73,8 +74,9 @@ def main() -> None:
         """
 
         # FRAME UPDATES
+        alien_manager.check_collision(bullet_manager, 0.05)
         stddraw.picture(BACKGROUND, 0.5, 0.7)
-        player.update()
+        player.update(bullet_manager, bullet_velocity)
         alien_manager.update()
         bullet_manager.update()
 
