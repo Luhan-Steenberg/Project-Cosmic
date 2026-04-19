@@ -96,7 +96,7 @@ class Player:
     def shoot(self, bullet_manager: BulletManager, bullet_velocity):
         angle = 0.0
         if self.angle < 0:
-           angle = maths.radian(abs(self.angle) + 90)
+           angle = math.radians(abs(self.angle) + 90)
         else:
             angle = math.radians(90 - self.angle)
 

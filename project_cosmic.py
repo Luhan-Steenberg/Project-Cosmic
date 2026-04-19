@@ -74,14 +74,15 @@ def main() -> None:
         """
 
         # FRAME UPDATES
+        alien_manager.out_of_bounds() # This can later be used for the game-over stuff
         alien_manager.check_collision(bullet_manager, 0.05)
+
         stddraw.picture(BACKGROUND, 0.5, 0.7)
         player.update(bullet_manager, bullet_velocity)
         alien_manager.update()
         bullet_manager.update()
 
         # GAME OVER STUFF
-        alien_manager.out_of_bounds() # This can later be used for the game-over stuff
 
 
 

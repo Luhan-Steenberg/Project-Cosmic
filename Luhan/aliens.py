@@ -75,15 +75,8 @@ class Alien_Manager:
     
     def remove_bottom_row(self):
         self.alien_queue.popleft()
-    """
-    def list_aliens(self) -> List[Alien]:
-        alien_list = []
-        for i, row in enumerate(self.alien_queue):
-            for j, alien in enumerate(row):
-                alien_list.append(alien)
 
-        return alien_list
-    """
+
 
     def check_collision(self, bullet_manager: BulletManager, hitbox_radius: float):
         """
@@ -102,8 +95,6 @@ class Alien_Manager:
                             del self.alien_queue[i][j]
 
 
-
-
     def move_down(self, step: float):
         for i, row in enumerate(self.alien_queue):
             for j, alien in enumerate(row):
@@ -115,11 +106,12 @@ class Alien_Manager:
         Meant to be called as a part of the "update function", which means it is taking in a row already
         """
         for i, row in enumerate(self.alien_queue):
-            if row[1].y <= 0.1:
-                self.remove_bottom_row()
-                return True
-            else: 
-                return False
+            if row:
+                if row[0].y <= 0.1:
+                    self.remove_bottom_row()
+                    return True
+                else:
+                    return False
         return False
 
 
