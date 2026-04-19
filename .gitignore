@@ -5,6 +5,7 @@
 __pycache__/
 *.py[codz]
 *$py.class
+*.pyc
 
 # Distribution / packaging
 .Python
@@ -54,4 +55,8 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# Temp files and Swap Files
+.py~
+.un~
 
