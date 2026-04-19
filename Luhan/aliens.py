@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from collections import deque
 from typing import List
 
-from Francois.bullet import Bullet_Manager
+from Francois.bullet import BulletManager
 
 @dataclass
 class Alien:
@@ -85,7 +85,7 @@ class Alien_Manager:
         return alien_list
     """
 
-    def check_collision(self, bullet_manager: Bullet_Manager, hitbox_radius: float):
+    def check_collision(self, bullet_manager: BulletManager, hitbox_radius: float):
         """
 
         """

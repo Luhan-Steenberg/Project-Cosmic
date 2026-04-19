@@ -3,11 +3,11 @@ import stddraw, stdio # type: ignore
 
 from picture import Picture
 
-from Jovan.playertype import Player
+from Jovan.player import Player
 from Luhan.aliens import Alien_Manager, Alien
 from Visuals.screens import show_start
 from Helpers.coordinate_visual import draw_coordinate_grid
-from Francois.bullet import Bullet, Bullet_Manager, Explosion_Manager
+from Francois.bullet import Bullet, BulletManager, Explosion_Manager
 
 BACKGROUND = Picture("Cosmic_background.png")
 
@@ -37,7 +37,7 @@ def main() -> None:
     """
     Luhan | I quickly did this to test out of my collision system was working
     """
-    bullet_manager = Bullet_Manager()
+    bullet_manager = BulletManager()
     explosion_manager = Explosion_Manager()
     last_bullet_spawn_time = time.time()
 
