@@ -14,7 +14,7 @@ classDiagram
         + health
         - draw
         - damage
-        - isDead : bool
+        - is_dead : bool
         
     }
     

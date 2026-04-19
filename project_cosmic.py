@@ -3,7 +3,8 @@ import stddraw, stdio # type: ignore
 from Jovan.playertype import Player
 from Jovan.player import PlayerDisplay, PlayerUpdate
 from Luhan.aliens import Alien_Manager, Alien
-from coordinate_visual import draw_coordinate_grid
+from Visuals.screens import showStart
+from Helpers.coordinate_visual import draw_coordinate_grid
 from Francois.bullet import Bullet, Bullet_Manager, Explosion_Manager
 
 def main() -> None: 
@@ -18,9 +19,9 @@ def main() -> None:
     # This is just a helper to get a sense of scale
     # draw_coordinate_grid(1, 1.33, 0.1)
 
-    # Luhan Steenberg | Main Program control loop
-    x = 0
-    
+    # START SCREEN IMPLEMENTATION
+    showStart()
+
     # Setup Code for permanent variables
     frame_timing = 33
 
