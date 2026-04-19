@@ -1,7 +1,7 @@
 import stddraw, stdio, sys, time
 from Jovan.playertype import Player
 from Jovan.player import PlayerDisplay, PlayerUpdate
-from Luhan.alientype import Alien_Manager, Alien
+from Luhan.aliens import Alien_Manager, Alien
 
 def main() -> None: 
     stdio.writeln("Initialising Project Cosmic")
