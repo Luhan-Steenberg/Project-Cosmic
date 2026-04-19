@@ -1,4 +1,4 @@
-import sys, math
+import sys, math, time
 import stddraw, stdio # type: ignore
 
 from picture import Picture # type: ignore
@@ -20,6 +20,10 @@ class Player:
 
         self.vx = 0.0
         self.vangle = 0.0
+
+        # Luhan | Debouncing bullet shooting
+        self.last_shot = time.time()
+        self.bullet_cooldown = 0.3
 
     # Jovan Fourie | gets the actual angle from the horizontal axes to shoot the bullet
 
@@ -51,18 +55,18 @@ class Player:
             # Jovan Fourie | Changes the horizontal velocity of the player depending on what the player typed
 
             if key == 'd':
-                self.vx = 0.05
+                self.vx = 0.02
             elif key == 'a':
-                self.vx = -0.05
+                self.vx = -0.02
             elif key == 's':
                 self.vx = 0.0
 
             # Jovan Fourie | Changes the angle velocity of the player depending on what the player typed
 
             elif key == 'q':
-                self.vangle = -13
+                self.vangle = -8
             elif key == 'e':
-                self.vangle = 13
+                self.vangle = 8
             elif key == 'w':
                 self.vangle = 0.0
 
@@ -93,19 +97,22 @@ class Player:
     def is_dead(self) -> bool:
         return (p.health <= 0)
 
-    def shoot(self, bullet_manager: BulletManager, bullet_velocity):
+    def shoot(self, bullet_manager: BulletManager, bullet_velocity: float):
         angle = 0.0
+        current_time = time.time()
         if self.angle < 0:
            angle = math.radians(abs(self.angle) + 90)
         else:
             angle = math.radians(90 - self.angle)
 
-        bullet_manager.shoot(
+        if current_time - self.last_shot > self.bullet_cooldown:
+            bullet_manager.shoot(
                 self.x + 0.06 * math.cos(angle),
                 self.y + 0.06 * math.sin(angle),
                 angle,
                 bullet_velocity
                 )
+            self.last_shot = current_time
 
 
 
