@@ -79,6 +79,7 @@ def main() -> None:
 
         stddraw.picture(BACKGROUND, 0.5, 0.7)
         player.update(bullet_manager, bullet_velocity)
+        player.display_health()
         alien_manager.update()
         bullet_manager.update()
 
