@@ -96,6 +96,7 @@ class Player:
 
     def update_health(self, damage: int):
         self.health -= damage
+       # playsound("Jovan/Hit_Sound.mp3")
         winsound.PlaySound("Jovan/Hit_Sound.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     def is_dead(self) -> bool:
@@ -118,7 +119,7 @@ class Player:
                 )
             self.last_shot = current_time
 
-    def disply_health(self):
+    def DisplayHealth(self):
         
         for i in range(self.health):
         
