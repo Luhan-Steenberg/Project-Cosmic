@@ -1,5 +1,8 @@
 import random, math
+
 import stddraw # type: ignore
+from picture import Picture # type: ignore
+
 from dataclasses import dataclass
 from collections import deque
 from typing import List
@@ -18,13 +21,12 @@ class Alien:
         Note that the internal parameters can be set
         """
 
-        alien_radius = 0.03
+        alien = Picture("Luhan/alien.png")
 
         # Draw a green circle for now, alien sprite later
         
         if not self.is_dead(): # Only draw if still alive
-            stddraw.setPenColor(stddraw.RED)
-            stddraw.filledCircle(self.x, self.y, alien_radius)
+            stddraw.picture(alien, self.x, self.y, 0.07, 0.05)
 
     def move_down(self, step: float):
         """

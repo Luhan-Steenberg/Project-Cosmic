@@ -10,6 +10,7 @@ TITLE = Picture("Luhan/cosmic_banner.png")
 HEART = Picture("Jovan/Heart.png")
 
 
+
 def show_start() -> None:
     stddraw.picture(BACKGROUND, 0.5, 0.7)
     stddraw.setPenColor(BLUE)

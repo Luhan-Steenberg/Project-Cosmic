@@ -1,5 +1,5 @@
 import sys, math, time
-# import winsound
+import winsound
 import stddraw, stdio, stdaudio # type: ignore
 from dataclasses import dataclass, field
 

@@ -89,7 +89,7 @@ def main() -> None:
         if player.score >= 1000 * level:
             level += 1
 
-        if player.health <=0:
+        if player.health <= 0:
             playing = False
 
         screens.scoreBar(level, player)
