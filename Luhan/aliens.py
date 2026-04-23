@@ -78,7 +78,7 @@ class Alien_Manager:
 
 
 
-    def check_collision(self, bullet_manager: BulletManager, hitbox_radius: float):
+    def check_collision(self, bullet_manager: BulletManager, hitbox_radius: float) -> bool:
         """
 
         """
@@ -88,11 +88,13 @@ class Alien_Manager:
                 for bullet in bullet_manager.bullet_array:
                     distance = math.sqrt((alien.x - bullet.x) ** 2 + (alien.y - bullet.y) ** 2)
                     if distance < hitbox_radius:
-                        print("A bullet hit an alien!")
                         bullet.active = False
                         alien.update_health(1)
                         if alien.is_dead:
                             del self.alien_queue[i][j]
+                            return True
+
+        return False
 
 
     def move_down(self, step: float):

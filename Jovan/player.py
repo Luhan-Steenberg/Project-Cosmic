@@ -1,6 +1,7 @@
 import sys, math, time
-import winsound
-import stddraw, stdio # type: ignore
+# import winsound
+import stddraw, stdio, stdaudio # type: ignore
+from dataclasses import dataclass, field
 
 from picture import Picture # type: ignore
 
@@ -8,25 +9,28 @@ from Francois.bullet import BulletManager
 
 # Jovan Fourie
 
+@dataclass
 class Player:
-    # Jovan Fourie | Creating a player data type that tracks the players position, angle of shooter and health
-    
-    def __init__(self, x: float, y: float, angle: float, health: int):
-        self.x = float(x)
-        self.y = float(y)
-        self.angle = float(angle)
-        self.health = int(health)
+    # Position
+    x: float = 0.5
+    y: float = 0.1
+    angle: float = 0
 
-        # Jovan fourie | Variables that gets changed to update the players movement
+    # Scoring
+    health: float = 6
+    score: int = 0
 
-        self.vx = 0.0
-        self.vangle = 0.0
+    # Movement
+    vx: float = field(default=0.0, init=False)
+    vangle: float = field(default = 0.0, init = False)
 
-        # Luhan | Debouncing bullet shooting
-        self.last_shot = time.time()
-        self.bullet_cooldown = 0.3
 
-        self.Heart_Picture = Picture("Jovan/Heart.png")
+    # Shooting
+    _last_shot: float = field(default = time.time(), init = False)
+    _bullet_cooldown: float = field(default = 0.3, init = False)
+
+    _sprite = Picture("Jovan/ship_final.png")
+
 
     # Jovan Fourie | gets the actual angle from the horizontal axes to shoot the bullet
 
@@ -44,10 +48,8 @@ class Player:
 
         # Jovan Fourie | Uploads an image to show the player at said position
 
-        pic = Picture("Jovan/ship_final.png")
 
-        stddraw.picture(pic, self.x, self.y, 0.1, 0.1)
-
+        stddraw.picture(self._sprite, self.x, self.y, 0.1, 0.1)
 
     def update(self, bullet_manager: BulletManager, bullet_velocity: float):
         # Jovan Fourie | checks that the player has typed a key, and if so, stores the value of that key
@@ -73,6 +75,7 @@ class Player:
             elif key == 'w':
                 self.vangle = 0.0
 
+            # Luhan | Pushes a bullet into the bullet manager with the current parameters
             if key == ' ':
                 self.shoot(bullet_manager, bullet_velocity)
 
@@ -96,7 +99,7 @@ class Player:
 
     def update_health(self, damage: int):
         self.health -= damage
-        winsound.PlaySound("Jovan/Hit_Sound.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
+        # winsound.PlaySound("Jovan/Hit_Sound.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     def is_dead(self) -> bool:
         return (self.health <= 0)
@@ -109,7 +112,7 @@ class Player:
         else:
             angle = math.radians(90 - self.angle)
 
-        if current_time - self.last_shot > self.bullet_cooldown:
+        if current_time - self._last_shot > self._bullet_cooldown:
             bullet_manager.shoot(
                 self.x + 0.06 * math.cos(angle),
                 self.y + 0.06 * math.sin(angle),
@@ -117,10 +120,4 @@ class Player:
                 bullet_velocity
                 )
             self.last_shot = current_time
-
-    def disply_health(self):
-        
-        for i in range(self.health):
-        
-            stddraw.picture(self.Heart_Picture, (0.96 - (i*0.05)), 1.36, 0.1, 0.07)
 
