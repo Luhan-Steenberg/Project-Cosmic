@@ -11,6 +11,14 @@ from Francois.bullet import Bullet, BulletManager, Explosion_Manager
 
 BACKGROUND = Picture("Cosmic_background.png")
 
+def playgame(
+    frame_timing: int,
+    alien_manager: Alien_Manager,
+    bullet_manger: Bullet_Manager,
+    Explosion_Manager: Explosion_Manager,
+    player: Player
+    )
+
 def main() -> None: 
     stdio.writeln("Initialising Project Cosmic")
 
@@ -18,9 +26,6 @@ def main() -> None:
     stddraw.setCanvasSize(w=750, h=1000)
     stddraw.setXscale(0,1)
     stddraw.setYscale(0,1.4)
-
-    # This is just a helper to get a sense of scale
-    # draw_coordinate_grid(1, 1.4, 0.1)
 
     # START SCREEN IMPLEMENTATION
     screens.show_start()
@@ -45,7 +50,7 @@ def main() -> None:
     # last_bullet_spawn_time = time.time()
 
     # SINGLE PLAYER SETUP
-    player = Player(0.5, 0.1, 0.0, 5, 900) # all the variables are handled by the dataclass defaults
+    player = Player(0.5, 0.1, 0.0, 0, 900) # all the variables are handled by the dataclass defaults
     bullet_velocity = 0.02
 
 
@@ -56,49 +61,43 @@ def main() -> None:
         current_time = time.time()
 
 
-        # ALIEN HANDLING
-        ## Alien spawner
-        if current_time - last_enemy_spawn_time >= 3.2 / (level // 2 +1): # spawns every 3.2 seconds
-            num_aliens = (level // 5 + 1) * alien_scale
-            alien_manager.add_row(
-                num_aliens,
-                alien_health
-                ) # spawns 5 enemies
+        if not player.is_dead():
+            # ALIEN HANDLING
 
-            if num_aliens >= 10:
-                alien_health = alien_health + level // 10
+            ## Alien spawner
+            if current_time - last_enemy_spawn_time >= 3.2 / (level // 2 +1): # spawns every 3.2 seconds
+                num_aliens = (level // 5 + 1) * alien_scale
+                alien_manager.add_row(
+                    num_aliens,
+                    alien_health
+                    ) # spawns 5 enemies
 
-            last_enemy_spawn_time = current_time
+                if num_aliens >= 10:
+                    alien_health = alien_health + level // 10
 
-        alien_manager.move_down(alien_speed * (level // 2 + 1))
+                last_enemy_spawn_time = current_time
 
-        # FRAME UPDATES
-        if alien_manager.out_of_bounds():
-            player.update_health(1)
-            # This can later be used for the game-over stuff
+            alien_manager.move_down(alien_speed * (level // 2 + 1))
 
-        if alien_manager.check_collision(bullet_manager, 0.05):
-            player.score += 10
+            # FRAME UPDATES
+            if alien_manager.out_of_bounds():
+                player.update_health(1)
+            if alien_manager.check_collision(bullet_manager, 0.05):
+                player.score += 10
+            if player.score >= 500 * level:
+                level += 1
 
         stddraw.picture(BACKGROUND, 0.5, 0.7)
         player.update(bullet_manager, bullet_velocity)
         alien_manager.update()
         bullet_manager.update()
-        explosion_manager.update() # Francois 
 
-        # GAME OVER STUFF
-        if player.score >= 1000 * level:
-            level += 1
+            # GAME OVER STUFF
 
-        if player.health <= 0:
-            playing = False
-
-        screens.scoreBar(level, player)
+            screens.score_bar(level, player)
+        else: ## If the player is dead, show the game over screen and offer to save their score
+            screens.game_over(level, player)
 
         stddraw.show(frame_timing)
-
-    screens.game_over()
-
-
 
 if __name__ == "__main__": main()

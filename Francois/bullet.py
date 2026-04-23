@@ -27,7 +27,7 @@ class Bullet:
             stddraw.filledCircle(self.x, self.y, 0.01)
 
 class BulletManager:
-    def __init__(self):
+    def __init__(self, bullet_velocity = 0.02):
         # Francois Cooper | initialises bullet array
         self.bullet_array = []
 

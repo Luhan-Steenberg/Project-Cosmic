@@ -1,5 +1,5 @@
 import sys, math, time
-import winsound
+# import winsound
 import stddraw, stdio, stdaudio # type: ignore
 from dataclasses import dataclass, field
 
@@ -9,6 +9,10 @@ from Francois.bullet import BulletManager
 from Visuals.screens import pause
 
 # Jovan Fourie
+
+KEY_SET_1 = [['q', 'w', 'e'], ['a', 's', 'd'], ['x']]
+KEY_SET_2 = [['u', 'i', 'o'], ['j', 'k', 'l'], ['m']]
+
 
 @dataclass
 class Player:
@@ -32,6 +36,18 @@ class Player:
 
     _sprite = Picture("Jovan/ship_final.png")
 
+    # Luhan | Multiplayer
+    multiplayer
+    key_set = 1 # must be zero or one
+
+    # This will select the correct key-set
+    def __post_init__(self):
+        if self.key_set == 1:
+            self.key_set = KEY_SET_1
+        elif self.key_set == 2:
+            self.key_set = KEY_SET_2
+        else:
+            print("Did not choose a valid keyset")
 
     # Jovan Fourie | gets the actual angle from the horizontal axes to shoot the bullet
 
@@ -48,7 +64,6 @@ class Player:
         stddraw.line(self.x, self.y, x2, y2)
 
         # Jovan Fourie | Uploads an image to show the player at said position
-
 
         stddraw.picture(self._sprite, self.x, self.y, 0.1, 0.1)
 
@@ -80,7 +95,7 @@ class Player:
             if key == ' ':
                 self.shoot(bullet_manager, bullet_velocity)
 
-            if key == 27:
+            if key == '\x1b':
                 print("Triggered Pause")
                 screens.pause(Player)
 
@@ -103,7 +118,6 @@ class Player:
         self.display()
 
     def update_health(self, damage: int):
-        print(f"Reduced health by {damage}")
         self.health -= damage
         # winsound.PlaySound("Jovan/Hit_Sound.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
