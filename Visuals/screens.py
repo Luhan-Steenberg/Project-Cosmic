@@ -1,6 +1,7 @@
 import stddraw
 from color import Color
 from picture import Picture
+from Jovan.player import Player
 
 BLUE = Color(87, 89, 186)
 YELLOW = Color(254, 204, 109)
@@ -72,8 +73,8 @@ def count_down(n:int) -> None:
 def game_over():
     pass
 
-def pause():
-    blue = Color(87, 89, 186)
+def pause(Player):
+    blue = Color(87, 89, 186) #this doesnt need to be here?
     stddraw.setPenColor(BLUE)
     stddraw.filledSquare(0.5,0.5, 0.4)
 
@@ -82,8 +83,13 @@ def pause():
 
     stddraw.setPenColor(stddraw.WHITE)
     stddraw.text(0.5, 0.4, "Press <space> to Resume")
-
-    stddraw.text(0.5, 0.2, "Press <space> to Resume")
+    
+    #stddraw.text(0.5, 0.2, "Press <space> to Resume")
+    # Francois Cooper | showing health and score on pause screen
+    stddraw.text(0.5, 0.6, "Game Paused")
+    stddraw.text(0.5, 0.2, f"Health: {Player.health}")
+    stddraw.text(0.5, 0.1, f"Score: {Player.score}")
+   
 
 
     running = True

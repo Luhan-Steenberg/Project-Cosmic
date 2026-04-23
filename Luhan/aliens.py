@@ -8,6 +8,7 @@ from collections import deque
 from typing import List
 
 from Francois.bullet import BulletManager
+from Francois.bullet import Explosion_Manager
 
 @dataclass
 class Alien:
@@ -92,6 +93,7 @@ class Alien_Manager:
                     if distance < hitbox_radius:
                         bullet.active = False
                         alien.update_health(1)
+                        Explosion_Manager.new_explosion() # Francois | trigger explosion
                         if alien.is_dead:
                             del self.alien_queue[i][j]
                             return True

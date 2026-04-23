@@ -82,7 +82,7 @@ class Player:
 
             if key == 27:
                 print("Triggered Pause")
-                screens.pause()
+                screens.pause(Player)
 
 
         # Jovan Fourie | Updates the shooter and players position depending on the velocity

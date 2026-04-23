@@ -84,6 +84,7 @@ def main() -> None:
         player.update(bullet_manager, bullet_velocity)
         alien_manager.update()
         bullet_manager.update()
+        explosion_manager.update() # Francois 
 
         # GAME OVER STUFF
         if player.score >= 1000 * level:
