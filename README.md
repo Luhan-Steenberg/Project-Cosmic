@@ -20,3 +20,6 @@ python -m pip install -r 3.12.3-requirements.txt
 | **Constants** | `UPPER_CASE_WITH_UNDERSCORES` | `MAX_OVERFLOW` | Usually defined at the module level. |
 | **Methods & Instance Variables** | `lower_case_with_underscores` | `get_status()`, `current_state` | Use `self` for the first argument of instance methods, and `cls` for class methods. |
 | **Modules** | Short, all-lowercase | `my_module.py` | Underscores can be used if they improve readability. |
+
+# CURRENT TOP PRIORITY:
+- Fat ouk as a "You win!" Condition

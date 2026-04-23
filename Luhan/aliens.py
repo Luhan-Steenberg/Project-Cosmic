@@ -69,8 +69,8 @@ class Alien_Manager:
                 alien.drawAlien()
 
          
-    def add_row(self, n_aliens:int):
-        new_row = generate_aliens(n_aliens)
+    def add_row(self, n_aliens:int, alien_health:int):
+        new_row = generate_aliens(n_aliens, alien_health)
         self.alien_queue.append(new_row)
     
     def remove_bottom_row(self):
@@ -117,7 +117,7 @@ class Alien_Manager:
         return False
 
 
-def generate_aliens(n: int) -> List[Alien]:
+def generate_aliens(n: int, health: int) -> List[Alien]:
     """
     Generates n aliens and puts them on one row. Note that there is a maximum of 10 aliens per row
     """
@@ -134,7 +134,7 @@ def generate_aliens(n: int) -> List[Alien]:
     x = random.sample(range(0,10), n)
 
     for i in range(n):
-        new_alien = Alien(x[i] * 0.1 + left_offset, start_y)
+        new_alien = Alien(x[i] * 0.1 + left_offset, start_y, health)
         aliens_list.append(new_alien)
 
     return aliens_list

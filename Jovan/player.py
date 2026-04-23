@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from picture import Picture # type: ignore
 
 from Francois.bullet import BulletManager
+from Visuals.screens import pause
 
 # Jovan Fourie
 
@@ -79,6 +80,10 @@ class Player:
             if key == ' ':
                 self.shoot(bullet_manager, bullet_velocity)
 
+            if key == 27:
+                print("Triggered Pause")
+                screens.pause()
+
 
         # Jovan Fourie | Updates the shooter and players position depending on the velocity
         self.x += self.vx
@@ -98,6 +103,7 @@ class Player:
         self.display()
 
     def update_health(self, damage: int):
+        print(f"Reduced health by {damage}")
         self.health -= damage
         # winsound.PlaySound("Jovan/Hit_Sound.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
@@ -119,5 +125,5 @@ class Player:
                 angle,
                 bullet_velocity
                 )
-            self.last_shot = current_time
+            self._last_shot = current_time
 

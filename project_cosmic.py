@@ -27,9 +27,13 @@ def main() -> None:
 
     # Setup Code for permanent variables
     frame_timing = 33
+    level = 1
 
     # ALIEN SETUP
     alien_manager = Alien_Manager()
+    alien_health = 1
+    alien_scale = 3
+    alien_speed = 0.001
     last_enemy_spawn_time = time.time()
 
     # BULLET SETUP
@@ -41,10 +45,12 @@ def main() -> None:
     # last_bullet_spawn_time = time.time()
 
     # SINGLE PLAYER SETUP
-    player = Player() # all the variables are handled by the dataclass defaults
+    player = Player(0.5, 0.1, 0.0, 5, 900) # all the variables are handled by the dataclass defaults
     bullet_velocity = 0.02
 
-    while True: 
+
+    playing = True
+    while playing:
         # SETUP FOR EACH LOOP
         stddraw.clear(stddraw.GRAY)
         current_time = time.time()
@@ -52,11 +58,19 @@ def main() -> None:
 
         # ALIEN HANDLING
         ## Alien spawner
-        if current_time - last_enemy_spawn_time >= 3.2: # spawns every 3.2 seconds
-            alien_manager.add_row(5) # spawns 5 enemies
+        if current_time - last_enemy_spawn_time >= 3.2 / (level // 2 +1): # spawns every 3.2 seconds
+            num_aliens = (level // 5 + 1) * alien_scale
+            alien_manager.add_row(
+                num_aliens,
+                alien_health
+                ) # spawns 5 enemies
+
+            if num_aliens >= 10:
+                alien_health = alien_health + level // 10
+
             last_enemy_spawn_time = current_time
 
-        alien_manager.move_down(0.001)
+        alien_manager.move_down(alien_speed * (level // 2 + 1))
 
         # FRAME UPDATES
         if alien_manager.out_of_bounds():
@@ -70,13 +84,19 @@ def main() -> None:
         player.update(bullet_manager, bullet_velocity)
         alien_manager.update()
         bullet_manager.update()
-        screens.scoreBar(player)
 
         # GAME OVER STUFF
+        if player.score >= 1000 * level:
+            level += 1
 
+        if player.health <=0:
+            playing = False
 
+        screens.scoreBar(level, player)
 
         stddraw.show(frame_timing)
+
+    screens.game_over()
 
 
 
