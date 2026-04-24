@@ -3,6 +3,7 @@ import time
 import stddraw, stdio, stdaudio
 
 from picture import Picture
+from color import Color
 
 
 from Jovan.player import Player
@@ -14,6 +15,9 @@ from game_over import game_over, win_screen
 
 BACKGROUND = Picture("Cosmic_background.png")
 
+YELLOW = Color(254, 204, 109)
+RED = Color(150, 18, 25)
+BLUE = Color(87, 89, 186)
 
 def play(multiplayerFlag: bool):
     print("Game Set")
@@ -32,13 +36,13 @@ def play(multiplayerFlag: bool):
         health = 0
 
     # Alien Setup
-    alien_manager = Aliens.Alien_Manager()  # Start at Level 1
+    alien_manager = Aliens.Alien_Manager()
 
     # Bullet Setup
-    alien_bullets = Bullet_Manager()
+    alien_bullets = Bullet_Manager(0.02, stddraw.GREEN, 0.01)
 
-    p1_bullets = Bullet_Manager()
-    p2_bullets = Bullet_Manager()
+    p1_bullets = Bullet_Manager(0.06, RED, 0.008)
+    p2_bullets = Bullet_Manager(0.06, YELLOW, 0.008)
 
     explosion_manager = Explosion_Manager()
 
@@ -64,6 +68,9 @@ def play(multiplayerFlag: bool):
             p2.update(c_time, p2_bullets, 0.008, key)
             p1.update(c_time, p1_bullets, 0.008, key)
 
+            p1.check_bullet_collision(alien_bullets)
+            p2.check_bullet_collision(alien_bullets)
+
             p2.score += alien_manager.check_collision(p2_bullets, explosion_manager)
 
             players_score = p1.score + p2.score  # for levels
@@ -75,6 +82,7 @@ def play(multiplayerFlag: bool):
         else:
             p1.update(c_time, p1_bullets, 0.008, key)
             p1.score += alien_manager.check_collision(p1_bullets, explosion_manager)
+            p1.check_bullet_collision(alien_bullets)
 
             score_bars.score_bar(level, p1)
             players_score = p1.score
@@ -90,6 +98,7 @@ def play(multiplayerFlag: bool):
             level += 1
             if level != alien_manager.level:
                 update_level_attributes(alien_manager, level)
+                alien_manager.level = level
 
         if level % 10 == 0 and not alien_manager.boss_active:
             alien_manager.add_boss(alien_bullets)
@@ -118,7 +127,7 @@ def update_level_attributes(alien_manager, level):
     """
     if level % 2 == 0:
         if level % 5 == 0:
-            alien_manager.spawn_timing -= 0.003
+            alien_manager.spawn_timing -= 0.03
         elif level % 3 == 0:
             pass
         else:
@@ -127,6 +136,6 @@ def update_level_attributes(alien_manager, level):
         if level % 5 == 0:
             pass
         elif level % 3 == 0:
-            alien_manager.alien_speed += 0.0005
+            alien_manager.alien_speed += 0.001
         else:
             alien_manager.alien_health += 0.5

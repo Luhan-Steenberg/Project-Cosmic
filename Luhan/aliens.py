@@ -79,11 +79,11 @@ class Fat_Ouk:
 
         if c_time - self._last_shot >= self.cooldown:
             random_x = random.uniform(0.2, 0.8)
-            self.bullet_manager.shoot(random_x - 0.150, self.y, math.radians(270), 0.01)
-            self.bullet_manager.shoot(random_x - 0.075, self.y, math.radians(270), 0.01)
-            self.bullet_manager.shoot(random_x, self.y, math.radians(270), 0.01)
-            self.bullet_manager.shoot(random_x + 0.075, self.y, math.radians(270), 0.01)
-            self.bullet_manager.shoot(random_x + 0.15, self.y, math.radians(270), 0.01)
+            self.bullet_manager.shoot(random_x - 0.150, self.y, math.radians(270), 0.01, stddraw.RED)
+            self.bullet_manager.shoot(random_x - 0.075, self.y, math.radians(270), 0.01, stddraw.RED)
+            self.bullet_manager.shoot(random_x, self.y, math.radians(270), 0.01, stddraw.RED)
+            self.bullet_manager.shoot(random_x + 0.075, self.y, math.radians(270), 0.01, stddraw.RED)
+            self.bullet_manager.shoot(random_x + 0.15, self.y, math.radians(270), 0.01, stddraw.RED)
             self._last_shot = c_time
 
     def update_health(self, damage: int):
@@ -107,7 +107,7 @@ class Alien_Manager:
     alien_scale: int = 3
     alien_health: int = 1
     alien_speed: float = 0.001
-    spawn_timing: float = 10
+    spawn_timing: float = 8
     alien_queue = deque()
 
     boss_active: bool = False

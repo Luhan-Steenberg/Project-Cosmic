@@ -139,6 +139,9 @@ def game_over(level: int, score: int, multiplayer: bool):
         line = score_in.readLine()
         line = line.strip()
 
+        if not line:
+            continue
+
         # breaks it into parts and then interprets said parts
         parts = line.split(":")
 
@@ -214,6 +217,7 @@ def write_score_page(level: int, score: int, multiplayer: bool):
 
         # 6. Show the frame (using a small delay like 20ms)
         stddraw.show(20)
+    write_high_score(player_name, score)
 
 
 # Luhan

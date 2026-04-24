@@ -1,16 +1,19 @@
 import math
 import stddraw  # type: ignore
 from typing import List
+from color import Color
 
 
 # Francois Cooper
 class Bullet:
-    def __init__(self, x, y, angle, velocity):
+    def __init__(self, x, y, angle, radius = 0.02, color = stddraw.GREEN, velocity = 0.02):
         # Francois Cooper | initialises bullet position, angle and velocity
         self.active = True
         self.x = x
         self.y = y
         self.angle = angle
+        self.radius = radius
+        self.color = color
         self.velocity = velocity
 
     def move(self):
@@ -24,18 +27,21 @@ class Bullet:
     def draw(self):
         # Francois Cooper | draw bullet method
         if self.active:
-            stddraw.setPenColor(stddraw.GREEN)
-            stddraw.filledCircle(self.x, self.y, 0.01)
+            stddraw.setPenColor(self.color)
+            stddraw.filledCircle(self.x, self.y, self.radius)
 
 
 class Bullet_Manager:
-    def __init__(self, bullet_velocity=0.02):
+    def __init__(self, bullet_velocity=0.02, color = stddraw.GREEN, radius = 0.02):
         # Francois Cooper | initialises bullet array
         self.bullet_array = []
+        self.velocity = bullet_velocity
+        self.color = color
+        self.radius = radius
 
     def shoot(self, x, y, angle, velocity):
         # Francois Cooper | creates new bullet and appends to bullet_array
-        new_bullet = Bullet(x, y, angle, velocity)
+        new_bullet = Bullet(x, y, angle, self.radius, self.color, self.velocity)
         self.bullet_array.append(new_bullet)
 
     def update(self):

@@ -148,3 +148,9 @@ class Player:
                 bullet_velocity,
             )
             self._last_shot = c_time
+
+    def check_bullet_collision(self, bullet_manager):
+        for bullet in bullet_manager.bullet_array:
+            distance = math.sqrt((bullet.x - self.x) **2 + (bullet.y - self.y) ** 2)
+            if distance < bullet.radius + 0.01:
+                self.update_health(1)
