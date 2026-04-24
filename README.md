@@ -21,5 +21,33 @@ python -m pip install -r 3.12.3-requirements.txt
 | **Methods & Instance Variables** | `lower_case_with_underscores` | `get_status()`, `current_state` | Use `self` for the first argument of instance methods, and `cls` for class methods. |
 | **Modules** | Short, all-lowercase | `my_module.py` | Underscores can be used if they improve readability. |
 
-# CURRENT TOP PRIORITY:
-- Fat ouk as a "You win!" Condition
+# Advanced functionality
+- Some sounds are implemented
+- Improved graphics
+- Leaderboard & High score screen with names
+- Progressively harder levels
+    - Infinite mode
+- Multiplayer/Additional shooter
+- Special "Boss enemy" - On level 10
+    - Enemy counterattack
+- Hit points
+- Pause function (press escape)
+
+
+# Work Distribution
+Luhan
+- Gamestate & gameflow (I had a vision of how it works)
+- Aliens
+    - Boss alien
+- Multiplayer
+- 
+
+Jovan
+- Players
+- Health systems
+- Visuals
+
+Francois
+- Screens
+- Bullet management code 
+- Explosions

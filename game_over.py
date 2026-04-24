@@ -15,7 +15,7 @@ DARK_RED = Color(111, 31, 35)
 WHITE = stddraw.WHITE
 BLACK = stddraw.BLACK
 
-
+# Luhan | Main gamestate handling done by Luhan
 def win_screen(level: int, score: int, multiplayer: bool):
     stddraw.clear()
     stddraw.picture(BACKGROUND, 0.5, 0.7)
@@ -93,7 +93,7 @@ def win_screen(level: int, score: int, multiplayer: bool):
     count_down(3)
     return
 
-
+# Luhan | Main gamestate handling done by Luhan
 def game_over(level: int, score: int, multiplayer: bool):
     stddraw.clear()
     stddraw.picture(BACKGROUND, 0.5, 0.7)
@@ -171,6 +171,7 @@ def game_over(level: int, score: int, multiplayer: bool):
 
     show_start()
 
+# Luhan | Highscores done by Luhan
 
 def write_score_page(level: int, score: int, multiplayer: bool):
 
@@ -220,7 +221,7 @@ def write_score_page(level: int, score: int, multiplayer: bool):
     write_high_score(player_name, score)
 
 
-# Luhan
+# Luhan | Highscores done by Luhan
 def write_high_score(name: str, score: int):
     score_in = InStream("Highscores.txt")
 

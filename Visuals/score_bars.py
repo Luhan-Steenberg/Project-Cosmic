@@ -29,6 +29,7 @@ def score_bar(level: int, player1):
     stddraw.setPenColor(YELLOW)
     stddraw.text(0.5, 1.32, f"{level}")
 
+    # Health implementation by Jovan
     l_offset = 0.96
     for i in range(player1.health):
         stddraw.picture(HEART, (l_offset - (i * 0.05)), 1.36, 0.1, 0.07)
@@ -40,6 +41,7 @@ def score_bar(level: int, player1):
         l_offset - (0.03 * (len(str(player1.score)) // 2)), 1.31, f"{player1.score}"
     )
 
+# Luhan | Scoring done by Luhan
 
 def m_score_bar(level: int, health: int, p1_score: int, p2_score: int):
     # BACKGROUND
@@ -63,9 +65,10 @@ def m_score_bar(level: int, health: int, p1_score: int, p2_score: int):
 
     r_offset = 0.2
     # Player 2 Score (Left side, mirrored)
-    stddraw.setPenColor(YELLOW)
+    # Implemented by Jovan
+    stddraw.setPenColor(RED)
     stddraw.text(r_offset + (0.02 * (len(str(p1_score)) // 2)), 1.31, f"{p1_score}")
 
     # Player 1 Score (Right side under the health bar)
-    stddraw.setPenColor(RED)
+    stddraw.setPenColor(YELLOW)
     stddraw.text(l_offset - (0.02 * (len(str(p2_score)) // 2)), 1.31, f"{p2_score}")

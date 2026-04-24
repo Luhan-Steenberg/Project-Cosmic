@@ -1,3 +1,4 @@
+KHAYA: 10000
 Luhan: 7500
 Luhan: 2050
 Luhan: 1100

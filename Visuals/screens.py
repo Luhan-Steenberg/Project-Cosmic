@@ -20,7 +20,7 @@ count_down -- used to leave start screen & pause screen
 pause -- pause screen (duh)
 """
 
-
+# Luhan | Main gamestate handling done by Luhan
 def show_start() -> None:
     stddraw.setFontFamily("Courier")
     running = True
@@ -136,6 +136,7 @@ def show_start() -> None:
 
     Play_Game.play(multiplayer)
 
+# Luhan | Main gamestate handling done by Luhan
 
 def pause():
     stddraw.clear()

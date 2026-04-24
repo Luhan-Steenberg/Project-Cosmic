@@ -10,7 +10,7 @@ from typing import List
 from Francois.bullet import Bullet_Manager
 from Francois.bullet import Explosion_Manager
 
-
+# Luhan | All alien code done by Luhan
 @dataclass
 class Alien:
     x: float
@@ -50,7 +50,7 @@ class Alien:
         """
         return self.health <= 0
 
-
+# Luhan | All alien code done by Luhan
 @dataclass
 class Fat_Ouk:
     bullet_manager: Bullet_Manager
@@ -79,11 +79,11 @@ class Fat_Ouk:
 
         if c_time - self._last_shot >= self.cooldown:
             random_x = random.uniform(0.2, 0.8)
-            self.bullet_manager.shoot(random_x - 0.150, self.y, math.radians(270), 0.01, stddraw.RED)
-            self.bullet_manager.shoot(random_x - 0.075, self.y, math.radians(270), 0.01, stddraw.RED)
-            self.bullet_manager.shoot(random_x, self.y, math.radians(270), 0.01, stddraw.RED)
-            self.bullet_manager.shoot(random_x + 0.075, self.y, math.radians(270), 0.01, stddraw.RED)
-            self.bullet_manager.shoot(random_x + 0.15, self.y, math.radians(270), 0.01, stddraw.RED)
+            self.bullet_manager.shoot(random_x - 0.150, self.y, math.radians(270), stddraw.RED)
+            self.bullet_manager.shoot(random_x - 0.075, self.y, math.radians(270), stddraw.RED)
+            self.bullet_manager.shoot(random_x,         self.y, math.radians(270), stddraw.RED)
+            self.bullet_manager.shoot(random_x + 0.075, self.y, math.radians(270), stddraw.RED)
+            self.bullet_manager.shoot(random_x + 0.15,  self.y, math.radians(270), stddraw.RED)
             self._last_shot = c_time
 
     def update_health(self, damage: int):
@@ -123,7 +123,6 @@ class Alien_Manager:
             self.last_spawn = c_time
         elif self.boss_active:
             if self.boss.health <= 0:
-                self.remove_bottom_row()
                 self.boss_active = False
                 self.boss_just_died = True
                 self.last_spawn = c_time  # Reset timer for normal aliens
@@ -148,9 +147,6 @@ class Alien_Manager:
         self.boss = Fat_Ouk(bullet_manager)
         self.alien_queue.append([self.boss])
 
-    def remove_bottom_row(self):
-        self.alien_queue.popleft()
-
     def check_collision(
         self, bullet_manager: Bullet_Manager, explosion_manager: Explosion_Manager
     ) -> int:
@@ -170,6 +166,11 @@ class Alien_Manager:
                         if alien.is_dead():
                             points_earned = alien.points
                             del self.alien_queue[i][j]
+
+                            if not self.alien_queue[i]:
+                                point_earned = 100
+                                del self.alien_queue[i]
+
                             return points_earned
         return 0
 
@@ -186,7 +187,7 @@ class Alien_Manager:
         for i, row in enumerate(self.alien_queue):
             if row:
                 if row[0].y <= 0.1:
-                    self.remove_bottom_row()
+                    del self.alien_queue[i]
                     return True
                 else:
                     return False

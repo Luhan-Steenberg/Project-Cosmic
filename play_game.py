@@ -19,6 +19,7 @@ YELLOW = Color(254, 204, 109)
 RED = Color(150, 18, 25)
 BLUE = Color(87, 89, 186)
 
+# Luhan | Main gamestate handling done by Luhan
 def play(multiplayerFlag: bool):
     print("Game Set")
 
@@ -28,11 +29,11 @@ def play(multiplayerFlag: bool):
 
     # Player Setup for Multiplayer
     if multiplayerFlag:
-        p1 = Player(1, 3, 0.4)
-        p2 = Player(2, 3, 0.6)
+        p1 = Player(1, 3, 0.4, 4500)
+        p2 = Player(2, 3, 0.6, 4500)
         health = 6
     else:
-        p1 = Player(1, 6)
+        p1 = Player(1, 6, 0.5, 9400)
         health = 0
 
     # Alien Setup
@@ -71,6 +72,7 @@ def play(multiplayerFlag: bool):
             p1.check_bullet_collision(alien_bullets)
             p2.check_bullet_collision(alien_bullets)
 
+            p1.score += alien_manager.check_collision(p1_bullets, explosion_manager)
             p2.score += alien_manager.check_collision(p2_bullets, explosion_manager)
 
             players_score = p1.score + p2.score  # for levels

@@ -1,6 +1,6 @@
 import sys, math, time
 
-# import winsound
+import winsound
 import stddraw, stdio, stdaudio  # type: ignore
 from dataclasses import dataclass, field
 from color import Color
@@ -129,7 +129,7 @@ class Player:
 
     def update_health(self, damage: int):
         self.health -= damage
-        # winsound.PlaySound("Jovan/Hit_Sound.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
+        winsound.PlaySound("Jovan/Hit_Sound.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     def shoot(
         self, c_time: float, bullet_manager: Bullet_Manager, bullet_velocity: float
@@ -154,3 +154,4 @@ class Player:
             distance = math.sqrt((bullet.x - self.x) **2 + (bullet.y - self.y) ** 2)
             if distance < bullet.radius + 0.01:
                 self.update_health(1)
+                bullet.active = False
