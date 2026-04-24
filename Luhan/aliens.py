@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from collections import deque
 from typing import List
 
-from Francois.bullet import BulletManager
+from Francois.bullet import Bullet_Manager
 from Francois.bullet import Explosion_Manager
 
 @dataclass
@@ -46,7 +46,7 @@ class Alien:
         Returns true if the enemies health is below zero
         """
         return (self.health <= 0)
-
+@dataclass
 class Alien_Manager:
     """
     The alien manager is essentially a set of aliens organized by rows. 
@@ -59,14 +59,24 @@ class Alien_Manager:
     - Alien health tracking
 
     """
+    level: int
+    _last_spawn: float
+    alien_queue = deque()
+    alien_scale: int = 3
+    alien_health: int = 1
+    alien_speed: float = 0.001
+    _spawn_timing: float = 3
 
-    def __init__(self):
-        self.alien_queue = deque()
-    
-    def update(self):
+    def update(self, c_time):
         """
         This function just draws the current alien queue to screen
         """
+        if c_time - self._last_spawn >= self._spawn_timing:
+            self.add_row(self.alien_scale, self.alien_health)
+            self._last_spawn = c_time
+
+        self.move_down(self.alien_speed)
+
         for i, row in enumerate(self.alien_queue):
             for j, alien in enumerate(row):
                 alien.drawAlien()
@@ -76,15 +86,13 @@ class Alien_Manager:
         new_row = generate_aliens(n_aliens, alien_health)
         self.alien_queue.append(new_row)
     
+
     def remove_bottom_row(self):
         self.alien_queue.popleft()
 
 
 
-    def check_collision(self, bullet_manager: BulletManager, hitbox_radius: float) -> bool:
-        """
-
-        """
+    def check_collision(self, bullet_manager: Bullet_Manager, hitbox_radius: float) -> bool:
 
         for i, row in enumerate(self.alien_queue):
             for j, alien in enumerate(row):
@@ -107,7 +115,8 @@ class Alien_Manager:
                 alien.move_down(step)
 
 
-    def out_of_bounds(self) -> bool: # returning a bool for a "game over" condition
+    def out_of_bounds(self) -> bool:
+        # returning a bool for a "game over" condition
         """
         Meant to be called as a part of the "update function", which means it is taking in a row already
         """

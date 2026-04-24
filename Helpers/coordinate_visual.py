@@ -33,7 +33,6 @@ def draw_coordinate_grid(max_x: float, max_y: float, step: float = 1):
             label = f"({x:g},{y:g})"
             stddraw.text(x + (step * 0.15), y + (step * 0.15), label)
 
-    stddraw.show()
 
 def main() -> None:
     # Luhan Steenberg | Canvas Setup
@@ -41,6 +40,13 @@ def main() -> None:
     stddraw.setXscale(0,1)
     stddraw.setYscale(0,1.4)
 
+    # Drawing the Controls
+    y_offset = 0.5
+    stddraw.setPenColor(stddraw.RED)
+    stddraw.filledRectangle(0.2, 0.0 + y_offset, 0.6, 0.3)
+
     draw_coordinate_grid(1, 1.4, 0.1)
+    stddraw.show()
+
 
 if __name__ == "__main__": main()

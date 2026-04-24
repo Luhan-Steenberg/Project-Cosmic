@@ -26,7 +26,7 @@ class Bullet:
             stddraw.setPenColor(stddraw.GREEN)
             stddraw.filledCircle(self.x, self.y, 0.01)
 
-class BulletManager:
+class Bullet_Manager:
     def __init__(self, bullet_velocity = 0.02):
         # Francois Cooper | initialises bullet array
         self.bullet_array = []
