@@ -1,7 +1,7 @@
 import random, math, time
 
-import stddraw # type: ignore
-from picture import Picture # type: ignore
+import stddraw  # type: ignore
+from picture import Picture  # type: ignore
 
 from dataclasses import dataclass
 from collections import deque
@@ -10,11 +10,12 @@ from typing import List
 from Francois.bullet import Bullet_Manager
 from Francois.bullet import Explosion_Manager
 
+
 @dataclass
 class Alien:
     x: float
     y: float
-    health: int = 1 # allows the creation of high-health enemies
+    health: int = 1  # allows the creation of high-health enemies
     hitbox_radius = 0.044
     points = 50
 
@@ -27,8 +28,8 @@ class Alien:
         alien = Picture("Luhan/alien.png")
 
         # Draw a green circle for now, alien sprite later
-        
-        if not self.is_dead(): # Only draw if still alive
+
+        if not self.is_dead():  # Only draw if still alive
             stddraw.picture(alien, self.x, self.y, 0.07, 0.05)
 
     def move_down(self, step: float):
@@ -47,7 +48,7 @@ class Alien:
         """
         Returns true if the enemies health is below zero
         """
-        return (self.health <= 0)
+        return self.health <= 0
 
 
 @dataclass
@@ -65,10 +66,10 @@ class Fat_Ouk:
 
     def drawAlien(self):
         fat_ouk = Picture("Luhan/Fat_ouk.png")
-        if not self.is_dead(): # Only draw if still alive
+        if not self.is_dead():  # Only draw if still alive
             stddraw.picture(fat_ouk, self.x, self.y)
 
-    def move_down(self, step: float): # Required by the Alien Manager
+    def move_down(self, step: float):  # Required by the Alien Manager
         if self.y >= 1.3:
             self.y -= self.step
         else:
@@ -92,22 +93,15 @@ class Fat_Ouk:
         """
         Returns true if the enemies health is below zero
         """
-        return (self.health <= 0)
-
-
-
-
-
-
-
-
+        return self.health <= 0
 
 
 @dataclass
 class Alien_Manager:
     """
-    The alien manager is essentially a set of aliens organized by rows. 
+    The alien manager is essentially a set of aliens organized by rows.
     """
+
     last_spawn: float = 0
     level = 0
     alien_scale: int = 3
@@ -132,7 +126,7 @@ class Alien_Manager:
                 self.remove_bottom_row()
                 self.boss_active = False
                 self.boss_just_died = True
-                self.last_spawn = c_time # Reset timer for normal aliens
+                self.last_spawn = c_time  # Reset timer for normal aliens
             else:
                 # Pass c_time to the boss so he can check his personal stopwatch
                 self.boss.attack(c_time)
@@ -142,7 +136,6 @@ class Alien_Manager:
             for j, alien in enumerate(row):
                 alien.drawAlien()
 
-         
     def add_row(self):
         new_row = generate_aliens(self.alien_scale, self.alien_health)
         self.alien_queue.append(new_row)
@@ -158,29 +151,32 @@ class Alien_Manager:
     def remove_bottom_row(self):
         self.alien_queue.popleft()
 
-
-    def check_collision(self, bullet_manager: Bullet_Manager, explosion_manager: Explosion_Manager) -> int:
+    def check_collision(
+        self, bullet_manager: Bullet_Manager, explosion_manager: Explosion_Manager
+    ) -> int:
 
         for i, row in enumerate(self.alien_queue):
             for j, alien in enumerate(row):
                 for bullet in bullet_manager.bullet_array:
-                    distance = math.sqrt((alien.x - bullet.x) ** 2 + (alien.y - bullet.y) ** 2)
+                    distance = math.sqrt(
+                        (alien.x - bullet.x) ** 2 + (alien.y - bullet.y) ** 2
+                    )
                     if distance < alien.hitbox_radius:
                         bullet.active = False
                         alien.update_health(1)
-                        explosion_manager.new_explosion(alien.x, alien.y) # Francois | trigger explosion
+                        explosion_manager.new_explosion(
+                            alien.x, alien.y
+                        )  # Francois | trigger explosion
                         if alien.is_dead():
                             points_earned = alien.points
                             del self.alien_queue[i][j]
                             return points_earned
         return 0
 
-
     def move_down(self, step: float):
         for i, row in enumerate(self.alien_queue):
             for j, alien in enumerate(row):
                 alien.move_down(step)
-
 
     def out_of_bounds(self) -> bool:
         # returning a bool for a "game over" condition
@@ -203,19 +199,18 @@ def generate_aliens(n: int, health: int) -> List[Alien]:
     """
 
     start_y = 1.3
-    left_offset = 0.05 # Ensures nothing goes off the left side of the page
+    left_offset = 0.05  # Ensures nothing goes off the left side of the page
 
     aliens_list = []
 
-    while n > 10: # Just a guard against creating more aliens than is in a row.
+    while n > 10:  # Just a guard against creating more aliens than is in a row.
         n = 10
 
     # Creates a list of n unique positions
-    x = random.sample(range(0,10), n)
+    x = random.sample(range(0, 10), n)
 
     for i in range(n):
         new_alien = Alien(x[i] * 0.1 + left_offset, start_y, health)
         aliens_list.append(new_alien)
 
     return aliens_list
-

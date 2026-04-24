@@ -8,12 +8,13 @@ from Visuals.screens import show_start, count_down
 
 BACKGROUND = Picture("Cosmic_background.png")
 
-BLUE   = Color(87, 89, 186)
+BLUE = Color(87, 89, 186)
 YELLOW = Color(254, 204, 109)
-RED    = Color(150, 18, 25)
+RED = Color(150, 18, 25)
 DARK_RED = Color(111, 31, 35)
-WHITE  = stddraw.WHITE
+WHITE = stddraw.WHITE
 BLACK = stddraw.BLACK
+
 
 def win_screen(level: int, score: int, multiplayer: bool):
     stddraw.clear()
@@ -42,7 +43,6 @@ def win_screen(level: int, score: int, multiplayer: bool):
     stddraw.setFontSize(16)
     stddraw.text(0.5, -0.06 + y_offset, "writing your score will end your run.")
 
-
     y_offset = 0.25
     stddraw.setFontSize(18)
     stddraw.text(0.5, 0.04 + y_offset, "Press <esc>/<N> to go")
@@ -65,14 +65,13 @@ def win_screen(level: int, score: int, multiplayer: bool):
         line = line.strip()
 
         # breaks it into parts and then interprets said parts
-        parts = line.split(':')
+        parts = line.split(":")
 
         old_name = parts[0]
         old_score = parts[1]
-        stddraw.text(0.3 + (len(old_name)  * 0.016) / 2, y_offset, old_name )
-        stddraw.text(0.7 - (len(old_score) * 0.02) / 2 , y_offset, old_score)
+        stddraw.text(0.3 + (len(old_name) * 0.016) / 2, y_offset, old_name)
+        stddraw.text(0.7 - (len(old_score) * 0.02) / 2, y_offset, old_score)
         y_offset -= 0.028
-
 
     running = True
     while running:
@@ -81,19 +80,19 @@ def win_screen(level: int, score: int, multiplayer: bool):
 
             # Luhan | Borrowed Jovan's implementation here'
 
-            if key == '\x1b':
+            if key == "\x1b":
                 running = False
                 show_start()
-            if key == 'y':
+            if key == "y":
                 write_score_page(level, score, multiplayer)
                 running = False
-            if key == 'e':
+            if key == "e":
                 running = False
-
 
         stddraw.show(33)
     count_down(3)
     return
+
 
 def game_over(level: int, score: int, multiplayer: bool):
     stddraw.clear()
@@ -141,14 +140,13 @@ def game_over(level: int, score: int, multiplayer: bool):
         line = line.strip()
 
         # breaks it into parts and then interprets said parts
-        parts = line.split(':')
+        parts = line.split(":")
 
         old_name = parts[0]
         old_score = parts[1]
-        stddraw.text(0.3 + (len(old_name)  * 0.016) / 2, y_offset, old_name )
-        stddraw.text(0.7 - (len(old_score) * 0.02) / 2 , y_offset, old_score)
+        stddraw.text(0.3 + (len(old_name) * 0.016) / 2, y_offset, old_name)
+        stddraw.text(0.7 - (len(old_score) * 0.02) / 2, y_offset, old_score)
         y_offset -= 0.028
-
 
     running = True
     while running:
@@ -157,25 +155,23 @@ def game_over(level: int, score: int, multiplayer: bool):
 
             # Luhan | Borrowed Jovan's implementation here'
 
-            if key == '\x1b':
+            if key == "\x1b":
                 running = False
                 return
-            if key == 'y':
+            if key == "y":
                 write_score_page(level, score, multiplayer)
                 running = False
-            if key == 'n' or key == ' ':
+            if key == "n" or key == " ":
                 running = False
-
 
         stddraw.show(33)
 
     show_start()
 
+
 def write_score_page(level: int, score: int, multiplayer: bool):
 
-
     player_name = ""
-
 
     running = True
     while running:
@@ -199,20 +195,19 @@ def write_score_page(level: int, score: int, multiplayer: bool):
         if stddraw.hasNextKeyTyped():
             key = stddraw.nextKeyTyped()
 
-            if key == '\n' or key == '\r':
+            if key == "\n" or key == "\r":
                 running = False
 
             # 3. Check for the "Backspace" key to delete the last letter
-            elif key == '\b':
+            elif key == "\b":
                 if len(player_name) > 0:
-                    player_name = player_name[:-1] # Slices off the last character
+                    player_name = player_name[:-1]  # Slices off the last character
             else:
                 player_name += key
 
         stddraw.setPenColor(stddraw.WHITE)
         stddraw.text(0.5, 0.6, "Please enter your name:")
         stddraw.text(0.5, 0.57, "Press <enter> to finish")
-
 
         # Draw the actual name the player is typing
         stddraw.text(0.5, 0.5, player_name)
@@ -238,7 +233,7 @@ def write_high_score(name: str, score: int):
         line = line.strip()
 
         # breaks it into parts and then interprets said parts
-        parts = line.split(':')
+        parts = line.split(":")
         old_name = parts[0]
         old_score = int(parts[1])
 

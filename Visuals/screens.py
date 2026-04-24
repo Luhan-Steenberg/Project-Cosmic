@@ -3,11 +3,11 @@ import stddraw, stdio
 from color import Color
 from picture import Picture
 
-BLUE   = Color(87, 89, 186)
+BLUE = Color(87, 89, 186)
 YELLOW = Color(254, 204, 109)
-RED    = Color(150, 18, 25)
+RED = Color(150, 18, 25)
 DARK_RED = Color(111, 31, 35)
-WHITE  = stddraw.WHITE
+WHITE = stddraw.WHITE
 BLACK = stddraw.BLACK
 
 BACKGROUND = Picture("Cosmic_background.png")
@@ -19,6 +19,7 @@ show_start -- start screen
 count_down -- used to leave start screen & pause screen
 pause -- pause screen (duh)
 """
+
 
 def show_start() -> None:
     stddraw.setFontFamily("Courier")
@@ -34,7 +35,7 @@ def show_start() -> None:
         stddraw.setPenColor(WHITE)
         stddraw.setFontSize(16)
         y_offset = 0.945
-        stddraw.text(0.5, 0.11 + y_offset,"You are one of earth's elite spaceforce ")
+        stddraw.text(0.5, 0.11 + y_offset, "You are one of earth's elite spaceforce ")
         stddraw.text(0.5, 0.065 + y_offset, "The aliens from jupiter are")
         stddraw.text(0.5, 0.04 + y_offset, "trying to destroy the moon base!")
         stddraw.text(0.5, 0.00 + y_offset, "You must DESTROY ALL ALIENS to succeed.")
@@ -62,7 +63,6 @@ def show_start() -> None:
 
         stddraw.setFontSize(21)
         y_offset = 0.5
-
 
         """
         | .000  | .100  | .175  | .250  |
@@ -108,9 +108,6 @@ def show_start() -> None:
             stddraw.text(x_offset + 0.250, y_offset + 0.08, "L")
             stddraw.text(x_offset + 0.175, y_offset + 0.01, "M")
 
-
-
-
         stddraw.setPenColor(WHITE)
         stddraw.setFontSize(21)
         stddraw.text(0.5, 0.3, "Press <space> to begin")
@@ -121,23 +118,24 @@ def show_start() -> None:
 
             # Luhan | Borrowed Jovan's implementation here'
 
-            if key == ' ':
+            if key == " ":
                 running = False
-            elif key == '\x1b':
+            elif key == "\x1b":
                 running = False
                 return
-            if key == 'm':
+            if key == "m":
                 multiplayer = True
-            elif key == 's':
+            elif key == "s":
                 multiplayer = False
-
 
         stddraw.show(33)
 
     count_down(3)
 
     import play_game as Play_Game
+
     Play_Game.play(multiplayer)
+
 
 def pause():
     stddraw.clear()
@@ -171,7 +169,6 @@ def pause():
 
     stddraw.setFontSize(21)
     y_offset = 0.5
-
 
     """
     | .000  | .100  | .175  | .250  |
@@ -216,7 +213,6 @@ def pause():
     stddraw.text(x_offset + 0.250, y_offset + 0.08, "L")
     stddraw.text(x_offset + 0.175, y_offset + 0.01, "M")
 
-
     running = True
     while running:
         if stddraw.hasNextKeyTyped():
@@ -224,20 +220,20 @@ def pause():
 
             # Luhan | Borrowed Jovan's implementation here'
 
-            if key == ' ':
+            if key == " ":
                 running = False
-            if key == 'r':
+            if key == "r":
                 show_start()
-
 
         stddraw.show(33)
 
     count_down(3)
     return
 
+
 def win_screen():
     stddraw.setPenColor(BLUE)
-    stddraw.filledSquare(0.5,0.5, 0.4)
+    stddraw.filledSquare(0.5, 0.5, 0.4)
 
     stddraw.picture(TITLE, 0.5, 0.7)
 
@@ -254,16 +250,15 @@ def win_screen():
 
             # Luhan | Borrowed Jovan's implementation here'
 
-            if key == ' ':
+            if key == " ":
                 running = False
-
 
         stddraw.show(33)
 
     return
 
 
-def count_down(n:int) -> None:
+def count_down(n: int) -> None:
     for i in range(n, 0, -1):
         stddraw.clear()
         stddraw.picture(BACKGROUND, 0.5, 0.7)
@@ -279,7 +274,9 @@ def count_down(n:int) -> None:
 
 def main() -> None:
     stddraw.setCanvasSize(w=750, h=1000)
-    stddraw.setXscale(0,1)
-    stddraw.setYscale(0,1.4)
+    stddraw.setXscale(0, 1)
+    stddraw.setYscale(0, 1.4)
 
-if __name__ == "__main__":  main()
+
+if __name__ == "__main__":
+    main()

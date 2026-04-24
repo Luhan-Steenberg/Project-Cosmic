@@ -14,6 +14,7 @@ from game_over import game_over, win_screen
 
 BACKGROUND = Picture("Cosmic_background.png")
 
+
 def play(multiplayerFlag: bool):
     print("Game Set")
 
@@ -27,11 +28,11 @@ def play(multiplayerFlag: bool):
         p2 = Player(2, 3, 0.6)
         health = 6
     else:
-        p1  = Player(1, 6)
+        p1 = Player(1, 6)
         health = 0
 
     # Alien Setup
-    alien_manager = Aliens.Alien_Manager() # Start at Level 1
+    alien_manager = Aliens.Alien_Manager()  # Start at Level 1
 
     # Bullet Setup
     alien_bullets = Bullet_Manager()
@@ -65,7 +66,7 @@ def play(multiplayerFlag: bool):
 
             p2.score += alien_manager.check_collision(p2_bullets, explosion_manager)
 
-            players_score = p1.score + p2.score # for levels
+            players_score = p1.score + p2.score  # for levels
             score_bars.m_score_bar(level, health, p1.score, p2.score)
 
             # EXIT CONDITION
@@ -81,13 +82,11 @@ def play(multiplayerFlag: bool):
             if p1.health <= 0:
                 playing = False
 
-
-
         if alien_manager.out_of_bounds():
             p1.update_health(1)
             health -= 1
 
-        if players_score >= (1000 * level): # takes into account both scores
+        if players_score >= (1000 * level):  # takes into account both scores
             level += 1
             if level != alien_manager.level:
                 update_level_attributes(alien_manager, level)
@@ -105,9 +104,9 @@ def play(multiplayerFlag: bool):
     return
 
 
-
 # I should implement some function which clears the different managers
 # This function should be called by the "end screen" function after it is exited for whatever reason.
+
 
 def update_level_attributes(alien_manager, level):
     """
@@ -118,14 +117,16 @@ def update_level_attributes(alien_manager, level):
     - spawn_timing
     """
     if level % 2 == 0:
-        if level % 5 == 0: alien_manager.spawn_timing -= 0.003
-        elif level % 3 == 0: pass
-        else: alien_manager.alien_scale += 1
+        if level % 5 == 0:
+            alien_manager.spawn_timing -= 0.003
+        elif level % 3 == 0:
+            pass
+        else:
+            alien_manager.alien_scale += 1
     else:
-        if level % 5 == 0: pass
-        elif level % 3 == 0: alien_manager.alien_speed += 0.0005
-        else: alien_manager.alien_health += 0.5
-
-
-
-
+        if level % 5 == 0:
+            pass
+        elif level % 3 == 0:
+            alien_manager.alien_speed += 0.0005
+        else:
+            alien_manager.alien_health += 0.5

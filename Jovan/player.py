@@ -1,22 +1,23 @@
 import sys, math, time
+
 # import winsound
-import stddraw, stdio, stdaudio # type: ignore
+import stddraw, stdio, stdaudio  # type: ignore
 from dataclasses import dataclass, field
 from color import Color
 
-from picture import Picture # type: ignore
+from picture import Picture  # type: ignore
 
 from Francois.bullet import Bullet_Manager
 from Visuals.screens import pause
 
 # Jovan Fourie
 
-KEY_SET_1 = ['q', 'w', 'e', 'a', 's', 'd', 'x']
-KEY_SET_2 = ['u', 'i', 'o', 'j', 'k', 'l', 'm']
+KEY_SET_1 = ["q", "w", "e", "a", "s", "d", "x"]
+KEY_SET_2 = ["u", "i", "o", "j", "k", "l", "m"]
 
 YELLOW = Color(254, 204, 109)
-RED    = Color(150, 18, 25)
-BLUE   = Color(87, 89, 186)
+RED = Color(150, 18, 25)
+BLUE = Color(87, 89, 186)
 
 TITLE = Picture("Visuals/cosmic_banner.png")
 
@@ -24,7 +25,7 @@ TITLE = Picture("Visuals/cosmic_banner.png")
 @dataclass
 class Player:
     # Luhan | Multiplayer
-    key_set: int # must be 1 or 2
+    key_set: int  # must be 1 or 2
     health: float
 
     # Position
@@ -37,12 +38,11 @@ class Player:
 
     # Movement
     vx: float = field(default=0.0, init=False)
-    vangle: float = field(default = 0.0, init = False)
-
+    vangle: float = field(default=0.0, init=False)
 
     # Shooting
-    _last_shot: float = field(default = time.time(), init = False)
-    _bullet_cooldown: float = field(default = 0.3, init = False)
+    _last_shot: float = field(default=time.time(), init=False)
+    _bullet_cooldown: float = field(default=0.3, init=False)
 
     _sprite = Picture("Jovan/ship_final.png")
 
@@ -59,9 +59,8 @@ class Player:
         else:
             print("Did not choose a valid keyset")
 
-
     def display(self):
-    # Jovan Fourie | gets the actual angle from the horizontal axes to shoot the bullet
+        # Jovan Fourie | gets the actual angle from the horizontal axes to shoot the bullet
         a = math.radians(self.angle)
 
         # Jovan Fourie | Direction line (0° = UP)
@@ -77,9 +76,14 @@ class Player:
 
         stddraw.picture(self._sprite, self.x, self.y, 0.1, 0.1)
 
-    def update(self, c_time: float, bullet_manager: Bullet_Manager, bullet_velocity: float, key: str = None):
+    def update(
+        self,
+        c_time: float,
+        bullet_manager: Bullet_Manager,
+        bullet_velocity: float,
+        key: str = None,
+    ):
         # Jovan Fourie | checks that the player has typed a key, and if so, stores the value of that key
-
 
         if key is not None:
 
@@ -99,14 +103,12 @@ class Player:
             if key == self.key_set[5]:
                 self.vx = 0.01
 
-
             # Luhan | Pushes a bullet into the bullet manager with the current parameters
             if key == self.key_set[6]:
                 self.shoot(c_time, bullet_manager, bullet_velocity)
 
-            if key == '\x1b':
+            if key == "\x1b":
                 pause()
-
 
         # Jovan Fourie | Updates the shooter and players position depending on the velocity
         self.x += self.vx
@@ -129,10 +131,12 @@ class Player:
         self.health -= damage
         # winsound.PlaySound("Jovan/Hit_Sound.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
-    def shoot(self, c_time: float, bullet_manager: Bullet_Manager, bullet_velocity: float):
+    def shoot(
+        self, c_time: float, bullet_manager: Bullet_Manager, bullet_velocity: float
+    ):
         angle = 0.0
         if self.angle < 0:
-           angle = math.radians(abs(self.angle) + 90)
+            angle = math.radians(abs(self.angle) + 90)
         else:
             angle = math.radians(90 - self.angle)
 
@@ -141,9 +145,6 @@ class Player:
                 self.x + 0.06 * math.cos(angle),
                 self.y + 0.06 * math.sin(angle),
                 angle,
-                bullet_velocity
-                )
+                bullet_velocity,
+            )
             self._last_shot = c_time
-
-
-
