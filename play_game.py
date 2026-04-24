@@ -10,7 +10,7 @@ from Francois.bullet import Bullet, Bullet_Manager, Explosion_Manager
 import Luhan.aliens as Aliens
 import Visuals.screens as screens
 import Visuals.score_bars as score_bars
-from game_over import game_over
+from game_over import game_over, win_screen
 
 BACKGROUND = Picture("Cosmic_background.png")
 
@@ -31,7 +31,7 @@ def play(multiplayerFlag: bool):
         health = 0
 
     # Alien Setup
-    alien_manager = Aliens.Alien_Manager(1, time.time()) # Start at Level 1
+    alien_manager = Aliens.Alien_Manager() # Start at Level 1
 
     # Bullet Setup
     alien_bullets = Bullet_Manager()
@@ -63,10 +63,7 @@ def play(multiplayerFlag: bool):
             p2.update(c_time, p2_bullets, 0.008, key)
             p1.update(c_time, p1_bullets, 0.008, key)
 
-            if alien_manager.check_collision(p2_bullets, explosion_manager, 0.044):
-                p2.score += 50
-            if alien_manager.check_collision(p1_bullets, explosion_manager, 0.044):
-                p1.score += 50
+            p2.score += alien_manager.check_collision(p2_bullets, explosion_manager)
 
             players_score = p1.score + p2.score # for levels
             score_bars.m_score_bar(level, health, p1.score, p2.score)
@@ -76,12 +73,10 @@ def play(multiplayerFlag: bool):
                 playing = False
         else:
             p1.update(c_time, p1_bullets, 0.008, key)
+            p1.score += alien_manager.check_collision(p1_bullets, explosion_manager)
 
             score_bars.score_bar(level, p1)
             players_score = p1.score
-
-            if alien_manager.check_collision(p1_bullets, explosion_manager, 0.044):
-                p1.score += 100
 
             if p1.health <= 0:
                 playing = False
@@ -92,8 +87,17 @@ def play(multiplayerFlag: bool):
             p1.update_health(1)
             health -= 1
 
-        if players_score >= 1000 * level: # takes into account both scores
+        if players_score >= (1000 * level): # takes into account both scores
             level += 1
+            if level != alien_manager.level:
+                update_level_attributes(alien_manager, level)
+
+        if level % 10 == 0 and not alien_manager.boss_active:
+            alien_manager.add_boss(alien_bullets)
+
+        if alien_manager.boss_just_died:
+            win_screen(level, players_score, multiplayerFlag)
+            alien_manager.boss_just_died = False
 
         stddraw.show(frame_timing)
 
@@ -113,4 +117,15 @@ def update_level_attributes(alien_manager, level):
     - alien_health
     - spawn_timing
     """
-    pass
+    if level % 2 == 0:
+        if level % 5 == 0: alien_manager.spawn_timing -= 0.003
+        elif level % 3 == 0: pass
+        else: alien_manager.alien_scale += 1
+    else:
+        if level % 5 == 0: pass
+        elif level % 3 == 0: alien_manager.alien_speed += 0.0005
+        else: alien_manager.alien_health += 0.5
+
+
+
+

@@ -21,6 +21,7 @@ pause -- pause screen (duh)
 """
 
 def show_start() -> None:
+    stddraw.setFontFamily("Courier")
     running = True
     multiplayer: bool = False
     while running:
@@ -32,9 +33,9 @@ def show_start() -> None:
 
         stddraw.setPenColor(WHITE)
         stddraw.setFontSize(16)
-        y_offset = 0.95
-        stddraw.text(0.5, 0.10 + y_offset,"You are one of earth's elite spaceforce marines.")
-        stddraw.text(0.5, 0.06 + y_offset, "The aliens from jupiter are")
+        y_offset = 0.945
+        stddraw.text(0.5, 0.11 + y_offset,"You are one of earth's elite spaceforce ")
+        stddraw.text(0.5, 0.065 + y_offset, "The aliens from jupiter are")
         stddraw.text(0.5, 0.04 + y_offset, "trying to destroy the moon base!")
         stddraw.text(0.5, 0.00 + y_offset, "You must DESTROY ALL ALIENS to succeed.")
 
@@ -44,7 +45,7 @@ def show_start() -> None:
             x_offset = 0.25
         else:
             stddraw.text(0.5, 0.00 + y_offset, "Press M for Multiplayer")
-            x_offset = 0.32
+            x_offset = 0.36
         # Drawing the Controls
         y_offset = 0.45
         stddraw.setPenColor(WHITE)
@@ -75,9 +76,9 @@ def show_start() -> None:
         stddraw.text(x_offset + 0.175, y_offset + 0.18, "Stop")
         stddraw.text(x_offset + 0.250, y_offset + 0.18, "R")
 
-        stddraw.text(0.000 + x_offset, y_offset + 0.13, "Rotate")
-        stddraw.text(0.010 + x_offset, y_offset + 0.08, "Move")
-        stddraw.text(0.005 + x_offset, y_offset + 0.01, "Shoot")
+        stddraw.text(0.010 + x_offset, y_offset + 0.13, "Rotate")
+        stddraw.text(0.020 + x_offset, y_offset + 0.08, "Move")
+        stddraw.text(0.015 + x_offset, y_offset + 0.01, "Shoot")
 
         stddraw.text(x_offset + 0.100, y_offset + 0.13, "Q")
         stddraw.text(x_offset + 0.175, y_offset + 0.13, "W")
@@ -139,6 +140,102 @@ def show_start() -> None:
     Play_Game.play(multiplayer)
 
 def pause():
+    stddraw.clear()
+    stddraw.picture(BACKGROUND)
+    stddraw.setPenColor(BLUE)
+    stddraw.filledRectangle(0.2, 0.15, 0.6, 1)
+
+    stddraw.picture(TITLE, 0.5, 1)
+
+    stddraw.setPenColor(stddraw.WHITE)
+    stddraw.setFontSize(28)
+    stddraw.text(0.5, 0.4, "Game Paused")
+    stddraw.text(0.5, 0.35, "Press <space> to Resume")
+    stddraw.text(0.5, 0.3, "Press <r> return to start")
+
+    # Drawing the Controls
+    y_offset = 0.45
+    x_offset = 0.25
+
+    stddraw.setPenColor(WHITE)
+    stddraw.filledRectangle(0.2, 0.0 + y_offset, 0.6, 0.3)
+
+    stddraw.setPenColor(BLACK)
+    stddraw.setFontSize(25)
+
+    stddraw.text(0.5, 0.28 + y_offset, "Controls")
+
+    # Drawing the Controls
+    stddraw.setPenRadius(0.002)
+    stddraw.line(0.2, 0.262 + y_offset, 0.8, 0.262 + y_offset)
+
+    stddraw.setFontSize(21)
+    y_offset = 0.5
+
+
+    """
+    | .000  | .100  | .175  | .250  |
+    |  0.20 |
+    |  0.15 |
+    |  0.10 |
+    """
+    stddraw.setPenColor(RED)
+
+    stddraw.text(x_offset + 0.100, y_offset + 0.18, "L")
+    stddraw.text(x_offset + 0.175, y_offset + 0.18, "Stop")
+    stddraw.text(x_offset + 0.250, y_offset + 0.18, "R")
+
+    stddraw.text(0.010 + x_offset, y_offset + 0.13, "Rotate")
+    stddraw.text(0.020 + x_offset, y_offset + 0.08, "Move")
+    stddraw.text(0.015 + x_offset, y_offset + 0.01, "Shoot")
+
+    stddraw.text(x_offset + 0.100, y_offset + 0.13, "Q")
+    stddraw.text(x_offset + 0.175, y_offset + 0.13, "W")
+    stddraw.text(x_offset + 0.250, y_offset + 0.13, "E")
+    stddraw.text(x_offset + 0.100, y_offset + 0.08, "S")
+    stddraw.text(x_offset + 0.175, y_offset + 0.08, "A")
+    stddraw.text(x_offset + 0.250, y_offset + 0.08, "D")
+    stddraw.text(x_offset + 0.175, y_offset + 0.01, "X")
+
+    x_offset = x_offset + 0.2
+
+    stddraw.setPenColor(BLACK)
+    stddraw.line(0.525, 0.5, 0.525, 0.7)
+
+    stddraw.setPenColor(BLUE)
+
+    stddraw.text(x_offset + 0.100, y_offset + 0.18, "L")
+    stddraw.text(x_offset + 0.175, y_offset + 0.18, "Stop")
+    stddraw.text(x_offset + 0.250, y_offset + 0.18, "R")
+
+    stddraw.text(x_offset + 0.100, y_offset + 0.13, "U")
+    stddraw.text(x_offset + 0.175, y_offset + 0.13, "I")
+    stddraw.text(x_offset + 0.250, y_offset + 0.13, "O")
+    stddraw.text(x_offset + 0.100, y_offset + 0.08, "J")
+    stddraw.text(x_offset + 0.175, y_offset + 0.08, "K")
+    stddraw.text(x_offset + 0.250, y_offset + 0.08, "L")
+    stddraw.text(x_offset + 0.175, y_offset + 0.01, "M")
+
+
+    running = True
+    while running:
+        if stddraw.hasNextKeyTyped():
+            key = stddraw.nextKeyTyped()
+
+            # Luhan | Borrowed Jovan's implementation here'
+
+            if key == ' ':
+                running = False
+            if key == 'r':
+                show_start()
+
+
+        stddraw.show(33)
+
+    count_down(3)
+    return
+
+def win_screen():
     stddraw.setPenColor(BLUE)
     stddraw.filledSquare(0.5,0.5, 0.4)
 
@@ -163,8 +260,8 @@ def pause():
 
         stddraw.show(33)
 
-    count_down(3)
     return
+
 
 def count_down(n:int) -> None:
     for i in range(n, 0, -1):

@@ -4,6 +4,7 @@ from outstream import OutStream
 from color import Color
 from picture import Picture
 
+from Visuals.screens import show_start, count_down
 
 BACKGROUND = Picture("Cosmic_background.png")
 
@@ -14,8 +15,88 @@ DARK_RED = Color(111, 31, 35)
 WHITE  = stddraw.WHITE
 BLACK = stddraw.BLACK
 
+def win_screen(level: int, score: int, multiplayer: bool):
+    stddraw.clear()
+    stddraw.picture(BACKGROUND, 0.5, 0.7)
+    stddraw.setPenColor(YELLOW)
+    stddraw.filledRectangle(0.2, 0.15, 0.6, 1)
 
-def game_over(level: int, score: int, multiplayer: bool) -> bool:
+    y_offset = 1
+    stddraw.setPenColor(BLUE)
+    stddraw.setFontSize(42)
+    stddraw.text(0.5, 0.1 + y_offset, "YOU WON!")
+
+    stddraw.setFontSize(20)
+    stddraw.text(0.5, 0.03 + y_offset, f"You reached level {level}")
+    if multiplayer:
+        stddraw.text(0.5, 0.00 + y_offset, f"Your combined score was {score}")
+    else:
+        stddraw.text(0.5, 0.00 + y_offset, f"Your score was {score}")
+
+    y_offset = 0.4
+    stddraw.setPenColor(BLACK)
+    stddraw.setFontSize(22)
+    stddraw.text(0.5, 0.08 + y_offset, "Would you like to save your score?")
+    stddraw.setFontSize(30)
+    stddraw.text(0.5, 0.00 + y_offset, "Y/N")
+    stddraw.setFontSize(16)
+    stddraw.text(0.5, -0.06 + y_offset, "writing your score will end your run.")
+
+
+    y_offset = 0.25
+    stddraw.setFontSize(18)
+    stddraw.text(0.5, 0.04 + y_offset, "Press <esc>/<N> to go")
+    stddraw.text(0.5, 0.01 + y_offset, "back to the start or")
+    stddraw.text(0.5, -0.03 + y_offset, "<E> to continue playing endless mode!")
+
+    y_offset = 0.8
+
+    stddraw.setPenColor(BLACK)
+    stddraw.filledRectangle(0.2, 0.5, 0.6, 0.35)
+    stddraw.setPenColor(WHITE)
+    stddraw.setFontSize(18)
+    stddraw.setFontFamily("Courier")
+
+    score_in = InStream("Highscores.txt")
+
+    while score_in.hasNextLine():
+        # Prepares the line from the file
+        line = score_in.readLine()
+        line = line.strip()
+
+        # breaks it into parts and then interprets said parts
+        parts = line.split(':')
+
+        old_name = parts[0]
+        old_score = parts[1]
+        stddraw.text(0.3 + (len(old_name)  * 0.016) / 2, y_offset, old_name )
+        stddraw.text(0.7 - (len(old_score) * 0.02) / 2 , y_offset, old_score)
+        y_offset -= 0.028
+
+
+    running = True
+    while running:
+        if stddraw.hasNextKeyTyped():
+            key = stddraw.nextKeyTyped()
+
+            # Luhan | Borrowed Jovan's implementation here'
+
+            if key == '\x1b':
+                running = False
+                show_start()
+            if key == 'y':
+                write_score_page(level, score, multiplayer)
+                running = False
+            if key == 'e':
+                running = False
+
+
+        stddraw.show(33)
+    count_down(3)
+    return
+
+def game_over(level: int, score: int, multiplayer: bool):
+    stddraw.clear()
     stddraw.picture(BACKGROUND, 0.5, 0.7)
     stddraw.setPenColor(RED)
     stddraw.filledRectangle(0.2, 0.15, 0.6, 1)
@@ -32,13 +113,41 @@ def game_over(level: int, score: int, multiplayer: bool) -> bool:
     else:
         stddraw.text(0.5, 0.00 + y_offset, f"Your score was {score}")
 
-    y_offset = 0.3
+    y_offset = 0.4
     stddraw.setPenColor(WHITE)
-    stddraw.setFontSize(30)
+    stddraw.setFontSize(22)
     stddraw.text(0.5, 0.08 + y_offset, "Would you like to save your score?")
-    stddraw.setFontSize(40)
+    stddraw.setFontSize(30)
     stddraw.text(0.5, 0.00 + y_offset, "Y/N")
 
+    y_offset = 0.25
+    stddraw.setFontSize(18)
+    stddraw.text(0.5, 0.04 + y_offset, "Press <esc> to quit or")
+    stddraw.text(0.5, 0.00 + y_offset, "<space>/<N> to go back to the start!")
+
+    y_offset = 0.8
+
+    stddraw.setPenColor(BLACK)
+    stddraw.filledRectangle(0.2, 0.5, 0.6, 0.35)
+    stddraw.setPenColor(WHITE)
+    stddraw.setFontSize(18)
+    stddraw.setFontFamily("Courier")
+
+    score_in = InStream("Highscores.txt")
+
+    while score_in.hasNextLine():
+        # Prepares the line from the file
+        line = score_in.readLine()
+        line = line.strip()
+
+        # breaks it into parts and then interprets said parts
+        parts = line.split(':')
+
+        old_name = parts[0]
+        old_score = parts[1]
+        stddraw.text(0.3 + (len(old_name)  * 0.016) / 2, y_offset, old_name )
+        stddraw.text(0.7 - (len(old_score) * 0.02) / 2 , y_offset, old_score)
+        y_offset -= 0.028
 
 
     running = True
@@ -50,13 +159,67 @@ def game_over(level: int, score: int, multiplayer: bool) -> bool:
 
             if key == '\x1b':
                 running = False
-                return False
-            # if key == 'y':
-
+                return
+            if key == 'y':
+                write_score_page(level, score, multiplayer)
+                running = False
+            if key == 'n' or key == ' ':
+                running = False
 
 
         stddraw.show(33)
-    return True
+
+    show_start()
+
+def write_score_page(level: int, score: int, multiplayer: bool):
+
+
+    player_name = ""
+
+
+    running = True
+    while running:
+        stddraw.clear()
+        stddraw.picture(BACKGROUND, 0.5, 0.7)
+        stddraw.setPenColor(RED)
+        stddraw.filledRectangle(0.2, 0.15, 0.6, 1)
+
+        y_offset = 1
+        stddraw.setPenColor(YELLOW)
+        stddraw.setFontSize(42)
+        stddraw.text(0.5, 0.1 + y_offset, "GAME OVER")
+
+        stddraw.setFontSize(20)
+        stddraw.text(0.5, 0.03 + y_offset, f"You reached level {level}")
+        if multiplayer:
+            stddraw.text(0.5, 0.00 + y_offset, f"Your combined score was {score}")
+        else:
+            stddraw.text(0.5, 0.00 + y_offset, f"Your score was {score}")
+
+        if stddraw.hasNextKeyTyped():
+            key = stddraw.nextKeyTyped()
+
+            if key == '\n' or key == '\r':
+                running = False
+
+            # 3. Check for the "Backspace" key to delete the last letter
+            elif key == '\b':
+                if len(player_name) > 0:
+                    player_name = player_name[:-1] # Slices off the last character
+            else:
+                player_name += key
+
+        stddraw.setPenColor(stddraw.WHITE)
+        stddraw.text(0.5, 0.6, "Please enter your name:")
+        stddraw.text(0.5, 0.57, "Press <enter> to finish")
+
+
+        # Draw the actual name the player is typing
+        stddraw.text(0.5, 0.5, player_name)
+
+        # 6. Show the frame (using a small delay like 20ms)
+        stddraw.show(20)
+
 
 # Luhan
 def write_high_score(name: str, score: int):

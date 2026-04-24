@@ -1,4 +1,4 @@
-import random, math
+import random, math, time
 
 import stddraw # type: ignore
 from picture import Picture # type: ignore
@@ -15,6 +15,8 @@ class Alien:
     x: float
     y: float
     health: int = 1 # allows the creation of high-health enemies
+    hitbox_radius = 0.044
+    points = 50
 
     def drawAlien(self):
         """
@@ -46,34 +48,94 @@ class Alien:
         Returns true if the enemies health is below zero
         """
         return (self.health <= 0)
+
+
+@dataclass
+class Fat_Ouk:
+    bullet_manager: Bullet_Manager
+    x: int = 0.5
+    y: int = 1.3
+    step: float = 0.05
+    health: int = 15
+    hitbox_radius = 0.2
+    points = 1000
+
+    cooldown: float = 3
+    _last_shot: float = 0.0
+
+    def drawAlien(self):
+        fat_ouk = Picture("Luhan/Fat_ouk.png")
+        if not self.is_dead(): # Only draw if still alive
+            stddraw.picture(fat_ouk, self.x, self.y)
+
+    def move_down(self, step: float): # Required by the Alien Manager
+        if self.y >= 1.3:
+            self.y -= self.step
+        else:
+            pass
+
+    def attack(self, c_time: float):
+
+        if c_time - self._last_shot >= self.cooldown:
+            random_x = random.uniform(0.2, 0.8)
+            self.bullet_manager.shoot(random_x - 0.150, self.y, math.radians(270), 0.01)
+            self.bullet_manager.shoot(random_x - 0.075, self.y, math.radians(270), 0.01)
+            self.bullet_manager.shoot(random_x, self.y, math.radians(270), 0.01)
+            self.bullet_manager.shoot(random_x + 0.075, self.y, math.radians(270), 0.01)
+            self.bullet_manager.shoot(random_x + 0.15, self.y, math.radians(270), 0.01)
+            self._last_shot = c_time
+
+    def update_health(self, damage: int):
+        self.health -= damage
+
+    def is_dead(self) -> bool:
+        """
+        Returns true if the enemies health is below zero
+        """
+        return (self.health <= 0)
+
+
+
+
+
+
+
+
+
+
 @dataclass
 class Alien_Manager:
     """
     The alien manager is essentially a set of aliens organized by rows. 
-    This manager is currently meant to work through the set of all aliens and handle: 
-    - Adding a row to the top
-    - Removing a row from the bottom
-    - Moving a row down by some interval
-
-    Future functionality: 
-    - Alien health tracking
-
     """
-    _last_spawn: float
-    alien_queue = deque()
+    last_spawn: float = 0
+    level = 0
     alien_scale: int = 3
     alien_health: int = 1
     alien_speed: float = 0.001
-    spawn_timing: float = 3
+    spawn_timing: float = 10
+    alien_queue = deque()
+
+    boss_active: bool = False
+    boss_just_died: bool = False
+    boss = None
 
     def update(self, c_time):
         """
         This function just draws the current alien queue to screen
         """
-        if c_time - self._last_spawn >= self.spawn_timing:
-            self.add_row(self.alien_scale, self.alien_health)
-            self._last_spawn = c_time
-
+        if (c_time - self.last_spawn >= self.spawn_timing) and not self.boss_active:
+            self.add_row()
+            self.last_spawn = c_time
+        elif self.boss_active:
+            if self.boss.health <= 0:
+                self.remove_bottom_row()
+                self.boss_active = False
+                self.boss_just_died = True
+                self.last_spawn = c_time # Reset timer for normal aliens
+            else:
+                # Pass c_time to the boss so he can check his personal stopwatch
+                self.boss.attack(c_time)
         self.move_down(self.alien_speed)
 
         for i, row in enumerate(self.alien_queue):
@@ -81,31 +143,37 @@ class Alien_Manager:
                 alien.drawAlien()
 
          
-    def add_row(self, n_aliens:int, alien_health:int):
-        new_row = generate_aliens(n_aliens, alien_health)
+    def add_row(self):
+        new_row = generate_aliens(self.alien_scale, self.alien_health)
         self.alien_queue.append(new_row)
-    
+
+    def add_boss(self, bullet_manager: Bullet_Manager):
+        if self.boss_active:
+            return
+        self.alien_queue.clear()
+        self.boss_active = True
+        self.boss = Fat_Ouk(bullet_manager)
+        self.alien_queue.append([self.boss])
 
     def remove_bottom_row(self):
         self.alien_queue.popleft()
 
 
-
-    def check_collision(self, bullet_manager: Bullet_Manager, explosion_manager: Explosion_Manager, hitbox_radius: float) -> bool:
+    def check_collision(self, bullet_manager: Bullet_Manager, explosion_manager: Explosion_Manager) -> int:
 
         for i, row in enumerate(self.alien_queue):
             for j, alien in enumerate(row):
                 for bullet in bullet_manager.bullet_array:
                     distance = math.sqrt((alien.x - bullet.x) ** 2 + (alien.y - bullet.y) ** 2)
-                    if distance < hitbox_radius:
+                    if distance < alien.hitbox_radius:
                         bullet.active = False
                         alien.update_health(1)
                         explosion_manager.new_explosion(alien.x, alien.y) # Francois | trigger explosion
-                        if alien.is_dead:
+                        if alien.is_dead():
+                            points_earned = alien.points
                             del self.alien_queue[i][j]
-                            return True
-
-        return False
+                            return points_earned
+        return 0
 
 
     def move_down(self, step: float):

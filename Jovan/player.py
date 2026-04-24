@@ -29,10 +29,10 @@ class Player:
 
     # Position
     x: float = 0.5
+    score: int = 0
     y: float = 0.1
     angle: float = 0
 
-    score: int = 0
     # Scoring
 
     # Movement
