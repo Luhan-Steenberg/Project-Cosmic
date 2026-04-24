@@ -7,6 +7,13 @@ from picture import Picture
 
 BACKGROUND = Picture("Cosmic_background.png")
 
+BLUE   = Color(87, 89, 186)
+YELLOW = Color(254, 204, 109)
+RED    = Color(150, 18, 25)
+DARK_RED = Color(111, 31, 35)
+WHITE  = stddraw.WHITE
+BLACK = stddraw.BLACK
+
 
 def game_over(level: int, score: int, multiplayer: bool) -> bool:
     stddraw.picture(BACKGROUND, 0.5, 0.7)

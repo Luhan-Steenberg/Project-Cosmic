@@ -42,7 +42,7 @@ class Player:
 
     # Shooting
     _last_shot: float = field(default = time.time(), init = False)
-    _bullet_cooldown: float = field(default = 0.9, init = False)
+    _bullet_cooldown: float = field(default = 0.3, init = False)
 
     _sprite = Picture("Jovan/ship_final.png")
 

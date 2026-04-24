@@ -57,7 +57,7 @@ class Explosion:
         self.x = x
         self.y = y
         self.frames = 15
-        self.radius = 0.01
+        self.radius = 0.008
 
     def boom(self):
         # Francois Cooper | Draws explosion
@@ -72,7 +72,7 @@ class Explosion:
         # Francois Cooper | Counts down frames and increases explosion size each frame
         self.boom()
         self.frames -= 1
-        self.radius += 0.005
+        self.radius += 0.0009
         if self.frames <= 0:
             self.active = False
         

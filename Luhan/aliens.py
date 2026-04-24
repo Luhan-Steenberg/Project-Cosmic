@@ -59,19 +59,18 @@ class Alien_Manager:
     - Alien health tracking
 
     """
-    level: int
     _last_spawn: float
     alien_queue = deque()
     alien_scale: int = 3
     alien_health: int = 1
     alien_speed: float = 0.001
-    _spawn_timing: float = 3
+    spawn_timing: float = 3
 
     def update(self, c_time):
         """
         This function just draws the current alien queue to screen
         """
-        if c_time - self._last_spawn >= self._spawn_timing:
+        if c_time - self._last_spawn >= self.spawn_timing:
             self.add_row(self.alien_scale, self.alien_health)
             self._last_spawn = c_time
 
@@ -92,7 +91,7 @@ class Alien_Manager:
 
 
 
-    def check_collision(self, bullet_manager: Bullet_Manager, hitbox_radius: float) -> bool:
+    def check_collision(self, bullet_manager: Bullet_Manager, explosion_manager: Explosion_Manager, hitbox_radius: float) -> bool:
 
         for i, row in enumerate(self.alien_queue):
             for j, alien in enumerate(row):
@@ -101,7 +100,7 @@ class Alien_Manager:
                     if distance < hitbox_radius:
                         bullet.active = False
                         alien.update_health(1)
-                        Explosion_Manager.new_explosion() # Francois | trigger explosion
+                        explosion_manager.new_explosion(alien.x, alien.y) # Francois | trigger explosion
                         if alien.is_dead:
                             del self.alien_queue[i][j]
                             return True

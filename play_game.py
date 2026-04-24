@@ -52,6 +52,7 @@ def play(multiplayerFlag: bool):
         alien_bullets.update()
         p1_bullets.update()
         p2_bullets.update()
+        explosion_manager.update()
 
         # Luhan | This is Jovan's implementation moved here for multiplayer
         key = None
@@ -59,8 +60,13 @@ def play(multiplayerFlag: bool):
             key = stddraw.nextKeyTyped()
 
         if multiplayerFlag:
-            p2.update(c_time, p2_bullets, 0.003, key)
-            p1.update(c_time, p1_bullets, 0.003, key)
+            p2.update(c_time, p2_bullets, 0.008, key)
+            p1.update(c_time, p1_bullets, 0.008, key)
+
+            if alien_manager.check_collision(p2_bullets, explosion_manager, 0.044):
+                p2.score += 50
+            if alien_manager.check_collision(p1_bullets, explosion_manager, 0.044):
+                p1.score += 50
 
             players_score = p1.score + p2.score # for levels
             score_bars.m_score_bar(level, health, p1.score, p2.score)
@@ -69,10 +75,13 @@ def play(multiplayerFlag: bool):
             if health <= 0:
                 playing = False
         else:
-            p1.update(c_time, p1_bullets, 0.003, key)
+            p1.update(c_time, p1_bullets, 0.008, key)
 
             score_bars.score_bar(level, p1)
             players_score = p1.score
+
+            if alien_manager.check_collision(p1_bullets, explosion_manager, 0.044):
+                p1.score += 100
 
             if p1.health <= 0:
                 playing = False
@@ -83,7 +92,7 @@ def play(multiplayerFlag: bool):
             p1.update_health(1)
             health -= 1
 
-        if players_score >= 500 * level: # takes into account both scores
+        if players_score >= 1000 * level: # takes into account both scores
             level += 1
 
         stddraw.show(frame_timing)
@@ -95,3 +104,13 @@ def play(multiplayerFlag: bool):
 
 # I should implement some function which clears the different managers
 # This function should be called by the "end screen" function after it is exited for whatever reason.
+
+def update_level_attributes(alien_manager, level):
+    """
+    Level Attributes:
+    - alien_speed
+    - alien_scale
+    - alien_health
+    - spawn_timing
+    """
+    pass
